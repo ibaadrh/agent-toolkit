@@ -1,0 +1,17 @@
+{
+  "description": "zsh guard: refuses Bash commands that zsh would break or silently change (words starting with =, unquoted globs in flags, URLs and remote paths), with the fix. Calls the portable script in skills/shell-safety-guard/scripts/.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/zsh-guard.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

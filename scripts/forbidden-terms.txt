@@ -1,0 +1,10 @@
+# Generic patterns that should never appear in the toolkit. One extended regex per line, case-insensitive.
+# Client and company names do not belong here: each private config repo keeps its own forbidden-terms.txt
+# at its root, and validate.sh reads every ../*/forbidden-terms.txt it finds next to this repo.
+ibaad
+/Users/
+/Volumes/
+cdn\.shopify\.com/s/files
+act_[0-9]{6,}
+[0-9]{15,16}
+canva\.link

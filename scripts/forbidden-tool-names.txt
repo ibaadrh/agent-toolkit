@@ -1,0 +1,7 @@
+# Platform tool names. Skills name actions instead (see AGENTS.md). One extended regex per line, case-insensitive.
+# validate.sh checks these everywhere except plugins/core/skills/platform-adapters/, the one place tool names live.
+mcp__
+javascript_tool
+SendUserFile
+device_commit_files
+device_bash

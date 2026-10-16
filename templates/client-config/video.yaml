@@ -1,0 +1,19 @@
+video:
+  default_ratio: 9x16
+  footage_dir: ""
+  footage_map: {}           # clip name → what it shows
+  renders: []
+  presenter:
+    first_frame_asset: ""
+    notes: ""               # e.g. pixel patches applied to the first frame
+  tts:
+    voice: ""
+    languages: [en-US]
+  end_card:
+    cta: { en: "" }         # one entry per language
+    footer_line: ""
+  captions:
+    font: ""
+    highlight_color_ass: ""
+  loudnorm: "I=-14:TP=-1.5:LRA=9"
+  naming: "<Product>_UGC_<Concept>_<LANG>_9x16_v<N>.mp4"

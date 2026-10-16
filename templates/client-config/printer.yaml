@@ -1,0 +1,7 @@
+printer:
+  model: ""                 # e.g. Bambu Lab P1S
+  nozzle_mm: 0.4
+  slicer: ""                # Bambu Studio / OrcaSlicer
+  profiles: []              # named profiles that worked, with material
+  filaments_on_hand: []
+  lan_host: ""              # for printer MCP, optional

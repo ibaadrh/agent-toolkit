@@ -1,0 +1,21 @@
+reel:
+  resolution: 1080x1920
+  fps: 30
+  target_length_s: [40, 60]
+  speed_range: []         # [min, max] playback speed for b-roll
+  grade: { contrast: 1.0, brightness: 0.0, saturation: 1.0 }   # 1.0 / 0.0 / 1.0 = no change
+  brand_kit:
+    overlay: ""
+    outro: ""
+    flag_or_badge: ""
+    font: ""
+  captions:
+    font: ""
+    size: 0
+    box_color: ""
+    position: { x: 0, y: 0, line_height: 0, padding: 0 }
+    first_clip_only: true
+  music_dir: ""
+  broll_dir: ""
+  finals_dir: ""
+  scripts_dir: ""           # where prep_clips.py / build_kdenlive.py live for this studio

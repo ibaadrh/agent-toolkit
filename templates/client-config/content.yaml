@@ -1,0 +1,11 @@
+content:
+  region: ""
+  product_lines: {}         # line → list of applications
+  target_titles: []
+  target_industries: []
+  competitors: []           # name, handle, site
+  events: []                # recurring regional events worth posting around
+  rotation_key: product_line
+  ideas_per_run: [5, 8]
+  ideas_log_doc: ""
+  strategy_docs: []

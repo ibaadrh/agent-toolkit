@@ -1,0 +1,35 @@
+brand:
+  name: ""                  # e.g. the product or company name as it appears in copy
+  legal_name: ""
+  website: ""
+  languages: [en]           # order = priority, e.g. [es, en]
+  colors:
+    primary: "#000000"
+    secondary: "#ffffff"
+    accent: ""
+    background: ""
+    text: ""
+  fonts:
+    primary: ""             # e.g. Inter
+    weights: [400, 700]
+  logo:
+    full: ""                # path or URL; note if it must be cropped to alpha bounds first
+    icon: ""
+    rule: ""                # e.g. which text colour goes on the primary colour
+  badges: []                # award or certification images with usage rules
+  audience: ""              # who appears in images and ads: ages, region, typical settings
+owner:
+  name: ""                  # the human who approves
+  email: ""
+drive:
+  root: ""                  # top-level Drive or volume path for this client
+  outputs: ""               # where finished files go
+  scratch: ""               # where files are moved instead of deleted
+  device_path_prefix: ""    # how that root appears on the local machine
+  route: ""                 # device (through the user's machine) or connector (the Drive connector); note which account owns the folder
+docs:
+  live_state: ""            # name or ID of the live state doc, if any
+  run_log: ""
+  playbook: ""
+  council_transcripts: ""   # folder for llm-council transcripts; empty = active/ in the project
+  session_notes: ""         # notes file for resume / wrap-up / park; empty = SESSION-NOTES.md at the repo root

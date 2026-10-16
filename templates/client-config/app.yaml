@@ -1,0 +1,13 @@
+app:
+  name: ""
+  stack: ""                 # flutter / expo / native
+  bundle_id_android: ""
+  bundle_id_ios: ""
+  signing:
+    android_keystore_path: ""   # path only, never the password
+    ios_team_id: ""
+  stores:
+    play_console_account: ""
+    app_store_connect_account: ""
+  analytics: ""
+  crash_reporting: ""

@@ -1,0 +1,25 @@
+voice:
+  tone: ""                  # e.g. "professional, factual, no hype, no exclamation marks, no emojis"
+  person: "we"              # we / I / brand name
+  banned_words: []
+  banned_phrases: []
+  rules:
+    - "No em dashes."
+    - "Specific beats impressive: write the number."
+  approved_claims: []       # the only claims allowed in copy, verbatim
+  claim_rules: []           # e.g. '"as much as 30%" never "up to 30%"'
+  spoken_variants: []       # claims said differently than written, e.g. a percentage kept for the end card, a plain phrase in speech
+  do_not: []                # habits that break the voice, one line each
+  examples: []              # verbatim pieces the owner approved, with where each was used
+  # Only for a voice file written as one person (emails sent as them). Keep it in the private config repo.
+  person_voice:
+    greetings: {}           # situation → greeting
+    signoffs: {}            # situation → sign-off
+    signposts: []           # short standalone lines used to break up longer messages
+    register: {}            # internal / external → how the tone shifts
+contact_line: ""            # appended to social posts or emails if used
+hashtags:
+  branded: []
+  core: []
+  industry: []
+  niche: []

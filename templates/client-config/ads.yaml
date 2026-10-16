@@ -1,0 +1,39 @@
+ads:
+  objective: sales          # sales / leads
+  destination_url: ""
+  spend_cap_per_day_eur: 0
+  hard_stop_days: 0         # stop a test after this many days; 0 = no hard stop
+  unit_economics:
+    price: 0
+    contribution_per_sale: 0
+    break_even_cps: 0
+  cps_ladder:               # cost per sale → action
+    raise_below: 0
+    hold_between: [0, 0]
+    stop_counter_above: 0
+  thresholds:
+    min_impressions_per_cell: 300
+    min_leader_link_clicks: 25
+    decay_cpc_pct: 30
+    decay_ctr_pct: 30
+    max_frequency: 3
+    overspend_pct: 150
+    spend_share_band: [40, 60]
+    cells_per_test: 2
+    cull_cost_multiple: 2   # cull a creative past the impression gate at more than this × the leader's cost per LPV
+    decision_metric_order: [cost_per_link_click, cost_per_lpv, cost_per_atc, purchases]
+    budget_step_pct: 25
+    budget_step_min_days: 4
+    data_window_days: 7     # the strategist's fresh-data window
+    baseline_days: 14       # a live winner is compared with its own trailing baseline over this many days
+    max_failed_refinements: 2   # refinements of one angle in a row that failed before a new test
+  attribution:
+    shopify_utm_field: lastVisit.utmParameters.content
+  video:
+    credits_per_clip: 0     # check the generator's current price
+    min_credit_balance: 0   # never start a round below this balance
+  authority:                # what Claude may do without asking; keep short and explicit
+    act_then_report: []
+    stop_and_ask: []
+    approved_on: ""
+angle_bank: []              # untested angles, one line each; if the live state keeps its own angle bank, that one wins

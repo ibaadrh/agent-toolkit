@@ -1,0 +1,12 @@
+meta:
+  ad_account_id: ""
+  pixel_id: ""
+  page_id: ""
+  instagram_account_id: ""
+  legacy_accounts_readonly: []
+  retired_campaign_ids: []
+  ai_disclosure: OPT_IN
+shopify:
+  store_domain: ""
+  cdn_base: ""              # public files base URL used to host creatives for Meta
+  upload_approved: ""       # what the owner allows on public store Files (e.g. "reference images and ad creatives"), and when they said so

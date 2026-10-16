@@ -1,0 +1,7 @@
+studio:
+  code_volume: ""           # where tools, templates and caches live (fast, APFS)
+  media_volume: ""          # where client studios live (exFAT ok)
+  caches_dir: ""
+  template_dir: ""
+  clients:                  # name → studio path, finals path, reel-style file
+    - { name: "", studio: "", finals: "", style: "" }

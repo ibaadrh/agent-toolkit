@@ -1,0 +1,8 @@
+reference_pack:             # public image URLs the image model can fetch, with a role each
+  - { role: front, url: "" }
+  - { role: side, url: "" }
+  - { role: back, url: "" }
+hero_bank:                  # approved AI heroes that can be reused without regeneration
+  dir: ""
+  active: []
+banned_assets: []           # files that must never be used (old claims, prototypes)

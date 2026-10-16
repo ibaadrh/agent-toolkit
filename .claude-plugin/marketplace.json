@@ -1,0 +1,236 @@
+{
+  "name": "ibaad-toolkit",
+  "owner": {
+    "name": "Ibaad Rahman"
+  },
+  "description": "Generic agent toolkits for video production, website development, app development, engineering and 3D printing, and digital marketing.",
+  "plugins": [
+    {
+      "name": "core",
+      "source": "./plugins/core",
+      "description": "Shared building blocks: report format, brief contract, AI image prompting, Firefly driver, ffmpeg recipes, delivery, browser hygiene, llm-council, client-config loader, platform adapters (action to tool name per agent).",
+      "version": "0.6.4"
+    },
+    {
+      "name": "video-production",
+      "source": "./plugins/video-production",
+      "description": "Firefly and Veo generation, Blender product renders, Kdenlive and ffmpeg editing, studio folder system.",
+      "version": "0.1.1"
+    },
+    {
+      "name": "website-development",
+      "source": "./plugins/website-development",
+      "description": "Site cloning, taste-level UI/UX, Wix headless and Shopify builds, SEO and AI-search readiness.",
+      "version": "0.1.1"
+    },
+    {
+      "name": "app-development",
+      "source": "./plugins/app-development",
+      "description": "Competitor feature extraction, mobile UI rules, building apps with Claude Code, store release.",
+      "version": "0.1.1"
+    },
+    {
+      "name": "engineering-3d-printing",
+      "source": "./plugins/engineering-3d-printing",
+      "description": "Functional-first design, CAD, design for printing, Bambu Lab print workflow, ESP32 firmware.",
+      "version": "0.1.1"
+    },
+    {
+      "name": "digital-marketing",
+      "source": "./plugins/digital-marketing",
+      "description": "Competitor and ad-library research, low-budget strategy, Meta and Google ads operations, static and video ad production, newsletters.",
+      "version": "0.2.0"
+    },
+    {
+      "name": "replica-skill",
+      "source": {
+        "source": "github",
+        "repo": "Jakeschincariol/replica-skill",
+        "sha": "77c9436fb3d18c3d58169efb8caf4fe906b0dc51"
+      },
+      "description": "Third-party (MIT). The app reverse-engineering pack. replica-recon maps any app into screens, flows, a data model and a feature matrix; ten more skills cover architecture, design, build, backend, test, parity diff, brand, launch and deploy.",
+      "homepage": "https://github.com/Jakeschincariol/replica-skill",
+      "category": "third-party"
+    },
+    {
+      "name": "taste-skill",
+      "source": {
+        "source": "github",
+        "repo": "Leonxlnx/taste-skill",
+        "sha": "f624f37a8c650b9cc550253104925efe4c8de246"
+      },
+      "description": "Third-party (MIT). Anti-slop art direction for landing pages: researched directions, real pictures, a browser inspector and a critique loop.",
+      "homepage": "https://github.com/Leonxlnx/taste-skill",
+      "category": "third-party"
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+        "sha": "56ea9cf174ed86786187daa9de0e6247cb0747e4"
+      },
+      "description": "Third-party (MIT). Searchable UI/UX data: styles, palettes, font pairings, UX guidelines, chart types. Overlaps with taste-skill; useful for its palette and font data.",
+      "homepage": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "category": "third-party"
+    },
+    {
+      "name": "wix",
+      "source": {
+        "source": "github",
+        "repo": "wix/skills",
+        "sha": "4d287eda39d302f139426cfa049ed414a3384e34"
+      },
+      "description": "Third-party (MIT). Official Wix skills (headless, CLI apps, design system, site management) plus the Wix MCP server (OAuth, no key).",
+      "homepage": "https://github.com/wix/skills",
+      "category": "third-party"
+    },
+    {
+      "name": "brightdata-plugin",
+      "source": {
+        "source": "github",
+        "repo": "brightdata/skills",
+        "sha": "37503c1ba31056370323a9d5ba88dd003a280008"
+      },
+      "description": "Third-party (MIT). Web data for any toolkit: scrape pages, search, structured data from big platforms, competitor intel, brand listening, SEO audits. Its CLI and MCP need a Bright Data API key.",
+      "homepage": "https://github.com/brightdata/skills",
+      "category": "third-party"
+    },
+    {
+      "name": "runway-api",
+      "source": {
+        "source": "github",
+        "repo": "runwayml/skills",
+        "sha": "4d6c53d40cc21c2a449e5b769718f95026d21709"
+      },
+      "description": "Third-party (MIT). Runway video and image generation. Only worth it with a paid Runway account; calls need RUNWAYML_API_SECRET.",
+      "homepage": "https://github.com/runwayml/skills",
+      "category": "third-party"
+    },
+    {
+      "name": "impeccable",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/pbakaus/impeccable.git",
+        "path": "plugin",
+        "sha": "6af45ac9a5eb8792f033d3242f52e99812fd91fa"
+      },
+      "description": "Third-party (Apache-2.0). Deterministic design anti-pattern detector with a hook on UI edits. Run /impeccable init once per project.",
+      "homepage": "https://github.com/pbakaus/impeccable",
+      "category": "third-party"
+    },
+    {
+      "name": "shopify-plugin",
+      "source": {
+        "source": "github",
+        "repo": "Shopify/Shopify-AI-Toolkit",
+        "sha": "a788f6a87cad4be5dfac814605a7288dc9e8f3db"
+      },
+      "description": "Third-party (MIT). Official Shopify AI Toolkit: Liquid themes, Admin and Storefront APIs, app development.",
+      "homepage": "https://github.com/Shopify/Shopify-AI-Toolkit",
+      "category": "third-party"
+    },
+    {
+      "name": "android-reverse-engineering",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/SimoneAvogadro/android-reverse-engineering-skill.git",
+        "path": "plugins/android-reverse-engineering",
+        "sha": "0c7cf89830993df7dfc178498f69952262808bea"
+      },
+      "description": "Third-party (Apache-2.0). APK decompile with jadx: endpoints, features, libraries. Pairs with replica-skill for Android apps. Needs JDK 17+ and jadx.",
+      "homepage": "https://github.com/SimoneAvogadro/android-reverse-engineering-skill",
+      "category": "third-party"
+    },
+    {
+      "name": "expo",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/expo/skills.git",
+        "path": "plugins/expo",
+        "sha": "927dd7cc2088ec2f0c73589fe2e94c3c973afc45"
+      },
+      "description": "Third-party (MIT). Official Expo skills: router, native UI, EAS builds and store submission.",
+      "homepage": "https://github.com/expo/skills",
+      "category": "third-party"
+    },
+    {
+      "name": "android-skills",
+      "source": {
+        "source": "github",
+        "repo": "android/skills",
+        "sha": "5bda39f154fb859a08d45e2392f3568e049f83fb"
+      },
+      "description": "Third-party (Apache-2.0). Official Google Android skills.",
+      "homepage": "https://github.com/android/skills",
+      "category": "third-party"
+    },
+    {
+      "name": "aso-skills",
+      "source": {
+        "source": "github",
+        "repo": "appeeky/aso-skills",
+        "sha": "3919d7c27402d92c7ef698f2016174b874ea189e"
+      },
+      "description": "Third-party (MIT). App Store Optimisation: keywords, screenshots, listing tests, rejection recovery.",
+      "homepage": "https://github.com/appeeky/aso-skills",
+      "category": "third-party"
+    },
+    {
+      "name": "flutter-all",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/cleydson/flutter-claude-code.git",
+        "path": "flutter-all",
+        "sha": "4319e00c25bb555b9e542d8dd0659c427f097aa2"
+      },
+      "description": "Third-party (no licence file). Flutter agents and patterns. Thin; expect to maintain your own notes on top.",
+      "homepage": "https://github.com/cleydson/flutter-claude-code",
+      "category": "third-party"
+    },
+    {
+      "name": "text-to-cad",
+      "source": {
+        "source": "github",
+        "repo": "earthtojake/text-to-cad",
+        "sha": "24573128ceaab564f497d7c12f995c41784c9539"
+      },
+      "description": "Third-party (MIT). CAD from text, STEP/STL/3MF, printability check, OrcaSlicer G-code, send to Bambu printers. Turn telemetry off: uvx cadgen telemetry off.",
+      "homepage": "https://github.com/earthtojake/text-to-cad",
+      "category": "third-party"
+    },
+    {
+      "name": "superpowers",
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers",
+        "sha": "bb92a77741419a4ab5f06e711a283343f1ada0c3"
+      },
+      "description": "Third-party (MIT). Brainstorming, planning, systematic debugging.",
+      "homepage": "https://github.com/obra/superpowers",
+      "category": "third-party"
+    },
+    {
+      "name": "andrej-karpathy-skills",
+      "source": {
+        "source": "github",
+        "repo": "multica-ai/andrej-karpathy-skills",
+        "sha": "2c606141936f1eeef17fa3043a72095b4765b9c2"
+      },
+      "description": "Third-party (MIT (stated in README; no licence file)). Think before coding, simplicity first, surgical changes: the anti-over-engineering layer.",
+      "homepage": "https://github.com/multica-ai/andrej-karpathy-skills",
+      "category": "third-party"
+    },
+    {
+      "name": "marketing-skills",
+      "source": {
+        "source": "github",
+        "repo": "coreyhaines31/marketingskills",
+        "sha": "365b412152b9542499ca1439426f7fc3cc92bb65"
+      },
+      "description": "Third-party (MIT). About 50 skills: copywriting, CRO, launch, emails, competitor profiling, pricing.",
+      "homepage": "https://github.com/coreyhaines31/marketingskills",
+      "category": "third-party"
+    }
+  ]
+}

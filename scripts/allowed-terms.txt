@@ -1,0 +1,9 @@
+# The owner's own identifiers. validate.sh removes these from a line before checking it,
+# so the marketplace name, repo path, author and commit email are not reported as client data.
+ibaad-toolkit
+ibaadrh/agent-toolkit
+ibaadrh/agent-clients
+Ibaad Rahman
+88559161+ibaadrh@users.noreply.github.com
+# The AGENTS.md rule that forbids tool names has to quote two of them.
+javascript_tool or mcp__Meta_Ads__*

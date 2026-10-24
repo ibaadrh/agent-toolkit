@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Push guard: blocks a push unless scripts/validate.sh passes (working tree) and scripts/scan-history.sh finds no
+# client-specific terms in the commits being pushed. Installed by scripts/install.sh (git config core.hooksPath).
+# Bypass once, only if you are sure: git push --no-verify
+set -uo pipefail
+cd "$(git rev-parse --show-toplevel)" || exit 1
+fail=0
+
+echo "pre-push: validate.sh"
+out=$(./scripts/validate.sh 2>&1) || { echo "$out"; fail=1; }
+
+while read -r _ local_sha _ remote_sha; do
+  [[ "$local_sha" =~ ^0+$ ]] && continue                         # deleting a branch: nothing to scan
+  if [[ ! "$remote_sha" =~ ^0+$ ]] && git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
+    range=("$remote_sha..$local_sha")
+  else
+    range=("$local_sha" --not --remotes)                          # new branch or unknown remote state
+  fi
+  echo "pre-push: scan-history.sh ${range[*]}"
+  ./scripts/scan-history.sh "${range[@]}" || fail=1
+done
+
+(( fail == 0 )) || { echo "pre-push: push blocked. Fix the findings above (and add new terms to the private forbidden-terms.txt)."; exit 1; }

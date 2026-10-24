@@ -66,9 +66,8 @@ window.__cost = () => deep(document, window.__SELECTORS.image.cost)[0]?.getAttri
 
 // ---- reference images (they enter only by in-page fetch of a public URL) ----
 // Crop a public image to [x, y, w, h] (fractions of the image) onto the background colour bg. [0,0,1,1] = whole image.
-// bg is the client's brand.image_style.reference_background; there is no default.
-window.__crop = async (url, [x, y, w, h], bg) => {
-  if (!bg) throw new Error('pass the background colour (brand.image_style.reference_background)');
+// bg defaults to light grey; brand.image_style.reference_background can override it.
+window.__crop = async (url, [x, y, w, h], bg = '#EDEDED') => {
   const im = new Image(); im.crossOrigin = 'anonymous'; im.src = url; await im.decode();
   const W = im.naturalWidth, H = im.naturalHeight, c = document.createElement('canvas');
   c.width = Math.round(w * W); c.height = Math.round(h * H);

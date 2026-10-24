@@ -14,7 +14,7 @@ Install `core` the same way first.
 
 | Skill | Use it when | Status |
 |---|---|---|
-| `video-studio-router` | Starting any client video job: finds the client's studio, applies the folder layout from `studio.folders`, onboards a new client | migrate from `video-studio` (the neutral routing only) |
+| `video-studio-router` | Starting any client video job: finds the studio, applies the standard folder layout (Drop → Review → Projects → Final → Brand Kit; `studio.folders` can override), onboards a new client | migrate from `video-studio` (the neutral routing only) |
 | `kdenlive-project-builder` | Any edit plan → an editable `.kdenlive` project: clips, cuts, tracks and audio placed as the plan says, a preview render, and a check that the project opens in Kdenlive. No style of its own: lengths, speeds, grades, overlays, captions and music come from the plan or the client's private settings | write new (only the neutral Kdenlive mechanics from the private inbox; a client's reel style stays private) |
 | `ugc-video-ad-maker` | Brief → script → AI presenter clip → voice-over → footage → ffmpeg edit with captions, in the structure and look the client's `video.yaml` sets | migrate the neutral mechanics (raw skill in the private inbox; the ads-loop role stays in digital-marketing) |
 | `blender-reference-render-pack` | You have a CAD file and need exact product renders (the views and angles the product needs) for ads or print checks | extract from the static ad skill in the private inbox |

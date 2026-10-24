@@ -21,4 +21,4 @@ In the Claude app, add each file to the Project as a doc named `toolkit/<file>`.
 
 Keys are fixed. Skills read them by name. Add keys, never rename them.
 
-Templates carry no client values and no style defaults: no colours, fonts, sizes, lengths, timings, formats or thresholds. An empty key means the skill asks the owner. A client's own look and numbers live only in that client's copy in the private config repo.
+Keys that hold the author's own methods and quality bars (test thresholds, loudness, encode quality, copy rules, naming, check tolerances) come filled in with defaults; a client's copy can override them. Keys for a client's own style or data (colours, fonts, caption looks, music timing, layouts, formats, prices) are empty: the skill asks the owner. A client's own look and numbers live only in that client's copy in the private config repo.

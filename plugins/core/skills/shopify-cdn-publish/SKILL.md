@@ -23,7 +23,7 @@ The file in the working area, its MIME type, and its size in bytes.
 
 ## Steps
 1. **Check the approval.** The file must be a kind the owner approved for public hosting (`shopify.upload_approved`). Never upload private material: invoices, personal photos, unreleased work outside the approved kinds.
-2. **Name it** by `shopify.file_naming` (empty: ask). Whatever the pattern, the name and the alt text say what the file is and that it is for internal use, because anyone with the link can open it.
+2. **Name it** so it is clear what it is and that it is internal: by default `<product>-<purpose>-<role>-<source>.<ext>` (`shopify.file_naming` can override), for example a reference image `widget-ref-front-photo.jpg`. Give it alt text that says what it is and that it is internal, for example "Reference image (internal, ad generation): front view".
 3. **Ask for an upload slot** ("run a Shopify GraphQL mutation"):
    ```graphql
    mutation stageIt($input: [StagedUploadInput!]!) { stagedUploadsCreate(input: $input) { stagedTargets { url resourceUrl parameters { name value } } userErrors { field message } } }

@@ -2,7 +2,7 @@
 
 Product: 
 Dimensions (L × W × H mm): 
-Silhouette ratio (long/short side), and tolerance: 
+Silhouette ratio (long/short side), and tolerance (default ±10%): 
 Corner radius: 
 Surface finish and colour: 
 Logo: position, size, orientation: 
@@ -15,4 +15,4 @@ Prompt product block (fixed text for image prompts, kept word for word; version,
 Reference images (public URLs, role per image): 
 CAD file: 
 Render index: path to index.csv of reference renders: 
-Paste-back limits (largest camera-angle difference, largest mask offset, smallest product share of the frame): 
+Paste-back limits (defaults: 15° camera angle, 4 px mask offset, product at least 15% of the frame width): 

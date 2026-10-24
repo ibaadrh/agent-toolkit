@@ -9,19 +9,19 @@
       "name": "core",
       "source": "./plugins/core",
       "description": "Shared building blocks: report format, brief contract, AI image prompting, Firefly driver, ffmpeg recipes, delivery, browser hygiene, llm-council, client-config loader, platform adapters (action to tool name per agent).",
-      "version": "0.7.0"
+      "version": "0.8.0"
     },
     {
       "name": "video-production",
       "source": "./plugins/video-production",
       "description": "Firefly and Veo generation, Blender product renders, Kdenlive and ffmpeg editing, studio folder system.",
-      "version": "0.1.2"
+      "version": "0.1.3"
     },
     {
       "name": "website-development",
       "source": "./plugins/website-development",
       "description": "Site cloning, taste-level UI/UX, Wix headless and Shopify builds, SEO and AI-search readiness.",
-      "version": "0.1.2"
+      "version": "0.1.3"
     },
     {
       "name": "app-development",
@@ -39,7 +39,7 @@
       "name": "digital-marketing",
       "source": "./plugins/digital-marketing",
       "description": "Competitor and ad-library research, low-budget strategy, Meta and Google ads operations, static and video ad production, newsletters.",
-      "version": "0.3.0"
+      "version": "0.4.0"
     },
     {
       "name": "replica-skill",

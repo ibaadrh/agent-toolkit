@@ -13,10 +13,11 @@ How to work with an agent on this repo, or any project (briefing, planning, stop
 - Third-party skills are referenced with an install line in `docs/THIRD-PARTY.md` (and pinned in the marketplace when they are plugins), never copied into this repo.
 - Commits: `git config user.email 88559161+ibaadrh@users.noreply.github.com`. Never add Co-Authored-By trailers or tool attribution. Messages describe the change.
 
-## General use only: no client style
+## General use only: the author's defaults, never a client's style
+- The toolkit carries the author's own methods and quality bars as defaults. It never carries a client's style, data or examples.
 - agent-toolkit contains only general-use skills. Some skills are client-specific on purpose (a client's house video style, their post format, their ad layouts). Those stay private in `agent-clients` or the company config repo and are never generalised into the toolkit.
-- When migrating any skill, sort every rule into (a) a neutral mechanic that works for any client, or (b) a client's style, preference, format, number or example. Only (a) goes into the toolkit. Everything in (b) stays private, as that client's settings or their own skill. If unsure, treat it as (b) and list it for the owner.
-- General skills have no style defaults borrowed from a client: no speeds, grades, music timing, fade lengths, caption looks, video lengths, layouts, fonts, colours, word counts, formats or thresholds. A config key for one has no value in `templates/client-config/`. An empty key means ask, never a client's value.
+- When migrating any skill, sort every rule into (a) a neutral mechanic, or the author's own doctrine, method or quality bar (test gates and windows, copy rules, loudness target, check tolerances, prompting rules, the report format), or (b) one client's style, preference, format, data or example. (a) goes into the toolkit, written as a general rule and marked "default; a client's config can override" where it is a value. (b) stays private, as that client's settings or their own skill. If unsure, treat it as (b) and list it for the owner.
+- General skills have no style defaults borrowed from a client: no client's caption looks, music timing, fade lengths, speeds, grades, video lengths, layouts, fonts, colours, formats, product sizes, prices or scene lines. A config key for one has no value in `templates/client-config/`; empty means ask, never a client's value. Keys for the author's defaults come filled in.
 - Every migration report includes a "kept private" list: what was left out of the toolkit, where it went, and why.
 
 ## Protecting clients without knowing their names

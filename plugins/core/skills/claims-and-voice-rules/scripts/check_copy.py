@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-"""Check copy against the truthfulness rules and a client's voice.yaml before it ships.
+"""Check copy against the default rules and a client's voice.yaml before it ships.
 
 Usage: check_copy.py <copy.txt | -> [--voice voice.yaml] [--lang <code>]
 Prints FAIL and WARN lines; exits 1 if anything FAILs. Standard library only
 (uses PyYAML when installed, otherwise reads the simple list format of the toolkit template).
 
-FAIL: a banned word or phrase from voice.yaml (punctuation such as a dash goes in banned_phrases too);
+FAIL: em dash or spaced en dash; "up to" with a number; a banned word or phrase from voice.yaml;
       a number claim not covered by voice.approved_claims (only when the list is filled);
       a [placeholder] left in the text.
-WARN: emoji (when voice.tone says "no emoji"); exclamation marks (when voice.tone says "no exclamation");
-      first-person buying language that reads like a testimonial.
-Style is the client's: nothing is banned unless their voice.yaml says so.
+WARN: emoji; exclamation marks (when voice.tone says "no exclamation"); first-person buying language
+      that reads like a testimonial.
 """
 import re, sys
 
@@ -46,6 +45,10 @@ TESTIMONIAL = re.compile(r"\b(I|we) (bought|ordered|love(d)? (it|this|my)|use (i
 
 def check(text, voice):
     fails, warns = [], []
+    for m in re.finditer(r"—|\s–\s", text):
+        fails.append(f"em dash or spaced en dash: ...{text[max(0,m.start()-20):m.end()+20]!r}...")
+    for m in re.finditer(r"\bup to\s+[+\-]?\d", text, re.I):
+        fails.append(f'"up to" with a number; write "as much as": ...{text[max(0,m.start()-10):m.end()+15]!r}...')
     low = text.lower()
     for w in voice.get("banned_words") or []:
         if re.search(r"\b" + re.escape(w.lower()) + r"\b", low): fails.append(f"banned word: {w!r}")
@@ -60,7 +63,7 @@ def check(text, voice):
                 fails.append(f"number claim not on the approved list: {sent.strip()!r}")
     elif NUMBER_CLAIM.search(text):
         warns.append("number claims found but voice.approved_claims is empty; check them by hand")
-    if EMOJI.search(text) and "no emoji" in (voice.get("tone") or "").lower(): warns.append("emoji, but the tone bans them")
+    if EMOJI.search(text): warns.append("emoji found")
     if "!" in text and "no exclamation" in (voice.get("tone") or "").lower(): warns.append("exclamation mark, but the tone bans them")
     for m in TESTIMONIAL.finditer(text): warns.append(f"reads like a testimonial: {m.group(0)!r}")
     return fails, warns

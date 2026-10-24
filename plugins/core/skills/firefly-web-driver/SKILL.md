@@ -10,7 +10,7 @@ Firefly has no API for this work, so the agent drives the website. Its UI sits i
 Last verified: 2026-10-15 (image), 2026-10-13 (video and Speech). Adobe changes the UI; step 1 checks before every run.
 
 ## Config
-This skill needs: `references.yaml` (keys: `reference_pack`), `brand.yaml` (keys: `brand.image_style.reference_background`), `video.yaml` (keys: `video.tts.voice`, `video.tts.languages`), `ads.yaml` (keys: `ads.video.credits_per_clip`, `ads.video.min_credit_balance`). The model, ratio and resolution come from the calling skill or the brief; if none says, ask.
+This skill needs: `references.yaml` (keys: `reference_pack`), `brand.yaml` (keys: `brand.image_style.reference_background`), `video.yaml` (keys: `video.tts.voice`, `video.tts.languages`), `ads.yaml` (keys: `ads.video.credits_per_clip`, `ads.video.min_credit_balance`). Defaults (the author's; a client's config or the calling skill can override): Nano Banana Pro at 2K for images, 4:5 for feed images and 9:16 for vertical, references on light grey `#EDEDED`.
 Look in this order: see `core/client-config`. Image runs work with an empty config (references then come from the calling skill). For video, an empty credit floor means: report the balance and the round's cost, and ask before spending.
 
 Tools: read core/platform-adapters for this platform's tool names.
@@ -31,18 +31,18 @@ Tools: read core/platform-adapters for this platform's tool names.
 6. **Paste the helpers after every navigation.** A page load wipes them.
 7. **Respect the 45-second limit.** One browser script call gives up after about 45 s. Run one generation per call, or start one in the background (`window.__bg = __genOne()`) and check `__gen.length` in later calls.
 8. **Settings (images).**
-   1. Model: `await __pick('firefly-picker-model', '<model item id>')`. Item ids look like `firefly-menu-item-google:firefly:colligo:nano-banana-pro`; read the current ones with `__pickers()` and the open menu.
-   2. Ratio: `await __pick('firefly-picker-size', '<ratio item id>')` (for example `firefly-menu-item-vertical`).
-   3. Resolution: check the panel reads the resolution the calling skill asked for.
+   1. Model: `await __pick('firefly-picker-model', 'firefly-menu-item-google:firefly:colligo:nano-banana-pro')` for Nano Banana Pro (default). For another model, read its item id from `__pickers()` and the open menu.
+   2. Ratio: `await __pick('firefly-picker-size', 'firefly-menu-item-standard')` for 4:5 (default for feed images), `'firefly-menu-item-vertical'` for 9:16 (default for vertical).
+   3. Resolution: check the panel reads 2K (default) or what the calling skill asked for.
    4. Cost: read `__cost()`. If it is not free on this plan, state the cost before generating.
 9. **References.**
-   1. `await __clearRefs()`, then add each one in the calling skill's slot order: `await __addRef(await __crop('<public URL>', [0,0,1,1], '<brand.image_style.reference_background>'), '<name>.jpg')`.
+   1. `await __clearRefs()`, then add each one in the calling skill's slot order: `await __addRef(await __crop('<public URL>', [0,0,1,1]), '<name>.jpg')` (pass a third argument only when `brand.image_style.reference_background` overrides the grey).
    2. `__addRef` always writes to the last file input. Each filled slot gets its own input, and writing to the first one replaces slot 1.
    3. Check the panel reads the count you added ("Images (n/6)"; up to 6 for Nano Banana Pro).
    4. Images move in only by in-page fetch of a public URL. Never pass image bytes or base64 through your own messages. A browser page cannot read the user's disk, and Drive links are blocked inside Firefly; host references with `core/shopify-cdn-publish`.
    5. Never click "Your device". It opens a native file dialog that agent tools cannot operate.
 10. **Prompt.** `__prompt(text)` (the field ignores typed keys; this uses insertText). It returns the length; stay under 1,000 characters or the run fails with a generic "Something went wrong".
-11. **Generate and harvest.** Run `await __seedKnown()` once, so images already on the page are not counted. Then `await __genOne(<output width in px>)` per candidate (the full-size width for the chosen ratio and resolution, so thumbnails are skipped). It clicks Generate and keeps each new full-size image as a Blob in `window.__gen`, because Firefly revokes blob URLs when it re-renders. Make as many candidates as the calling skill asks for.
+11. **Generate and harvest.** Run `await __seedKnown()` once, so images already on the page are not counted. Then `await __genOne(<output width in px>)` per candidate (the full-size width for the chosen ratio and resolution, so thumbnails are skipped). It clicks Generate and keeps each new full-size image as a Blob in `window.__gen`, because Firefly revokes blob URLs when it re-renders. Make every candidate the calling skill asks for (by default at least 6 to 8).
 12. **Download and rename by size.**
    1. Note each Blob's size (`__gen.map(b => b.size)`), then `__dl(i, '<name>.png')` about 2.5 s apart.
    2. The files land in the user's Downloads folder. In Claude Desktop they can land as hidden temp files (`~/Downloads/.<random>.com.anthropic.claudefordesktop.*`) without the given name. On the user's machine ("run a shell command on the user's machine"), list them with their sizes and `mv -n` each one whose size matches a Blob into the job folder under its proper name.

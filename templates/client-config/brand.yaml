@@ -20,9 +20,9 @@ brand:
   audience: ""              # who appears in images and ads: ages, region, typical settings; empty = ask
   image_style:              # the client's photo direction; empty = ask
     style_block: ""         # opening style line for scene photos, e.g. a photography genre
-    people: ""              # how people appear: mood, pose, what they are doing
+    people: "candid or editorial, mid-moment, natural skin, never posing at the camera with the product"   # default; a client's config can override
     closing_line: ""        # closing qualifier for placeholder prompts someone else runs
-    reference_background: ""  # colour that transparent reference images are flattened onto
+    reference_background: "#EDEDED"   # default light grey for flattening transparent references; a client's config can override
 owner:
   name: ""                  # the human who approves
   email: ""

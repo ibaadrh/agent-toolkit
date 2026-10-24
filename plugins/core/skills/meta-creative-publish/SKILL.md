@@ -12,7 +12,7 @@ This skill needs:
 - `meta.yaml` (keys: `meta.ad_account_id`, `meta.page_id`, `meta.instagram_account_id`, `meta.ai_disclosure`, `meta.visible_ai_line`)
 - `brand.yaml` (keys: `docs.live_state`)
 
-Look in this order: see `core/client-config`. No `meta.ad_account_id` or `meta.page_id`: stop, nothing can be published. An empty `meta.ai_disclosure`: ask the owner before the first upload, and publish no AI-made creative until they answer. `meta.instagram_account_id` is needed only for Instagram placements; without it, publish to Facebook placements and say so.
+Look in this order: see `core/client-config`. No `meta.ad_account_id` or `meta.page_id`: stop, nothing can be published. `meta.ai_disclosure` defaults to `OPT_IN` for any creative made with AI (default; a client's config can override). `meta.instagram_account_id` is needed only for Instagram placements; without it, publish to Facebook placements and say so.
 
 Tools: read core/platform-adapters for this platform's tool names.
 
@@ -44,7 +44,7 @@ The finished file per ratio, the brief (headline, primary text, destination, `ut
 ## AI disclosure
 - Content Credentials from the generator are stripped when the image is re-rendered (for example a layout rendered to PNG in a browser), so Meta will not label it on its own. Set the self-disclosure on the creative instead (step 6).
 - For AI video, turn on Meta's "AI info" label the same way.
-- Whether a visible "made with AI" line goes in the image itself is the client's choice (`meta.visible_ai_line`). Empty: ask before the first upload.
+- Whether a visible "made with AI" line goes in the image itself is the client's choice (`meta.visible_ai_line`). Default: no visible line; the platform disclosure does the job.
 - An AI person in an ad is never framed as a customer giving a testimonial.
 
 ## Output

@@ -1,5 +1,5 @@
 video:
-  default_ratio: ""         # e.g. 9x16; ask when empty
+  default_ratio: 9x16       # default; a client's config can override
   footage_dir: ""
   footage_map: {}           # clip name → what it shows
   renders: []
@@ -31,8 +31,8 @@ video:
     fade_in_s: ""
     fade_out_s: ""
     lead_in_s: ""           # how long before its drop a song starts, if music is timed to a drop
-  encode:
-    crf: ""                 # x264 quality for edits and burns
-    audio_bitrate: ""       # AAC bitrate
-  loudnorm: ""              # ffmpeg loudnorm target, I=<LUFS>:TP=<dBTP>:LRA=<LU>
+  encode:                   # the author's defaults; a client's config can override
+    crf: 18                 # x264 quality for edits and burns
+    audio_bitrate: 192k     # AAC bitrate
+  loudnorm: "I=-14:TP=-1.5:LRA=9"   # default; a client's config can override
   naming: ""                # file naming pattern for finished videos

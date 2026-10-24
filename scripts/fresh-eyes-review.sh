@@ -26,9 +26,29 @@ Count as a hit:
 - a specific price, measurement, ID, date, phone number, email or URL that looks like it came from client work
   rather than from public documentation or a plain made-up example;
 - an incident story with client details (what happened to whom, when, with which numbers);
-- a style choice presented as a default for everyone: speeds, grades, music timing, fade lengths, caption looks,
-  video lengths, layouts, fonts, colours, word counts, formats, thresholds. A config key with no value is fine;
-  a value filled in for everyone is a hit. Additions to allowlists count if they let any of the above through.
+- one client's style presented as a default for everyone: caption looks, music timing, fade lengths, speeds,
+  grades, video lengths, layouts, fonts, colours, formats, product sizes, scene lines. A config key with no value
+  is fine. Additions to allowlists count if they let any of the above through.
+
+Not a hit: the toolkit author's own methods and quality bars, written as general rules and marked as defaults a
+client's config can override. Examples: ads test gates and windows (impressions, clicks, spend share, decay,
+frequency), test structure and decision-metric order, the rule of three, the author's copy rules (no em dashes,
+write the number, "as much as" never "up to", plain words), a loudness target and encode quality, QA intervals,
+product-check tolerances, prompting rules (candid mid-moment people with natural skin, reference image prep,
+candidate counts), naming conventions, the report format.
+
+The owner has approved these specific author defaults; they are not hits (still flag anything client-specific
+inside them, and anything new that is not on this list):
+- 4:5 for feed images and 9:16 for vertical video; no added grain;
+- the studio folder layout 1 Drop Footage Here, 2 Review, 3 Projects, 4 Final, Brand Kit;
+- web breakpoints 390, 768, 1440;
+- the default scene composition (product and devices sharp in front, the person behind and out of focus), the
+  default prompt order, one named light and lens with generic examples (warm lamp light, soft morning window
+  light, 50mm f/2.2), the product at least 10% of the frame;
+- the realism fix (natural unretouched skin, the smile reaches the eyes, slightly lower saturation);
+- references flattened onto light grey #EDEDED, JPEG, at most 2400 px; at least 6 to 8 candidates per hero;
+- Nano Banana Pro at 2K; AI disclosure OPT_IN with no visible AI line; the file naming patterns;
+- presenter lines at most about 19 words per 8 seconds; a video ad round of 2 or 3 clips.
 
 List every hit as "- <file>: <the exact text> (why)". Then end with exactly one last line:
 VERDICT: CLEAN    (nothing found)

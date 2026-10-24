@@ -2,7 +2,7 @@ site:
   platform: ""              # static / nextjs / wix-headless / shopify
   domain: ""
   languages: []
-  breakpoints: []           # widths in px the build is checked at, smallest first
+  breakpoints: [390, 768, 1440]   # default; a client's config can override
   goals: []                 # sell / book / leads / inform
   analytics: { ga4_id: "", meta_pixel_id: "" }
   hosting: ""

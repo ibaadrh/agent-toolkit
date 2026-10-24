@@ -2,7 +2,7 @@
 """Estimate the speaking pitch (F0) of a clip by autocorrelation, to check two clips have the same voice.
 
 Usage: voice_pitch.py <file> [start_s=0] [length_s=1.0]
-Prints the estimated F0 in Hz. Compare clips of the same person;
+Prints the estimated F0 in Hz. Two clips of the same person should land within about 5 Hz;
 a gap like 130 Hz against 150 Hz is audible. Measure a stretch where the person is speaking.
 Needs ffmpeg on PATH. Standard library only.
 """

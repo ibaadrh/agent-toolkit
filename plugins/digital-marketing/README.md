@@ -14,7 +14,7 @@ Install `core` the same way first.
 
 | Skill | Use it when | Status |
 |---|---|---|
-| `paid-ads-strategist` | Start of every ads session: load state and fresh data, apply the owner's readability gates, walk the decision ladder (continue / refine / new test / kill), write the `## BRIEF`. Has a dry-run mode | done |
+| `paid-ads-strategist` | Start of every ads session: load state and 7-day data, apply readability gates, walk the decision ladder (continue / refine / new test / kill), write the `## BRIEF`. Has a dry-run mode | done |
 | `meta-campaigns-operator` | Build, test, scale, pause and diagnose on Meta: ABO per cell, launch sequence, thresholds, cheapest-first diagnosis, the authority envelope | migrate (raw skill in the private inbox) |
 | `static-ad-maker` | Brief → static ad: AI hero with exact product, the client's own layouts and rubric from their config, upload to CDN and Meta | migrate (raw skill and playbook in the private inbox) |
 | `ugc-video-ad-maker` (loop role) | Brief → UGC-style video; mechanics in video-production | migrate (raw skill in the private inbox) |

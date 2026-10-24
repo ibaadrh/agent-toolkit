@@ -5,10 +5,10 @@ meta:
   instagram_account_id: ""
   legacy_accounts_readonly: []
   retired_campaign_ids: []
-  ai_disclosure: ""         # platform self-disclosure value for AI-made creatives; empty = ask
-  visible_ai_line: ""       # whether a visible "made with AI" line goes in the image; empty = ask
+  ai_disclosure: OPT_IN     # default; a client's config can override
+  visible_ai_line: "no"     # default: no visible "made with AI" line; a client's config can override
 shopify:
   store_domain: ""
   cdn_base: ""              # public files base URL used to host creatives for Meta
   upload_approved: ""       # what the owner allows on public store Files (e.g. "reference images and ad creatives"), and when they said so
-  file_naming: ""           # naming pattern for files hosted there; empty = ask
+  file_naming: "<product>-<purpose>-<role>-<source>.<ext>"   # default; a client's config can override

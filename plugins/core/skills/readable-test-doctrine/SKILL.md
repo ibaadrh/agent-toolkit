@@ -1,15 +1,24 @@
 ---
 name: readable-test-doctrine
-description: The rules that decide whether a paid-ads test can be read at all, and how to build one that can. Covers the readability gates (impressions per cell, leader link clicks, set per client in ads.yaml), one ABO ad set per cell and never a split test inside CBO, the spend-share check, the decision-metric order, the rule-of-three table for zero conversions, culling, and the don't-fool-yourself list. Use it before declaring any ad a winner or loser, when building an A/B test, and when someone asks "is this ad working?".
+description: The rules that decide whether a paid-ads test can be read at all, and how to build one that can. Covers the readability gates (impressions per cell, leader link clicks), one ABO ad set per cell and never a split test inside CBO, the spend-share check, the decision-metric order, the rule-of-three table for zero conversions, culling, and the don't-fool-yourself list. Use it before declaring any ad a winner or loser, when building an A/B test, and when someone asks "is this ad working?".
 ---
 
 # Readable test doctrine
 
-Most ad "tests" at small budgets cannot be read. Cells get unequal money, samples are too small, and a zero-purchase week gets treated as a verdict. This skill holds the rules that keep a test fair and the gates a result must pass before anyone acts on it. The gate numbers belong to the owner and live in `ads.yaml`; this skill has none of its own.
+Most ad "tests" at small budgets cannot be read. Cells get unequal money, samples are too small, and a zero-purchase week gets treated as a verdict. This skill holds the rules that keep a test fair and the gates a result must pass before anyone acts on it. Every number here is the author's default; a client's `ads.yaml` can override it, and the report says which applied.
 
 ## Config
 This skill needs: `ads.yaml` (keys: `ads.thresholds.min_impressions_per_cell`, `ads.thresholds.min_leader_link_clicks`, `ads.thresholds.spend_share_band`, `ads.thresholds.cells_per_test`, `ads.thresholds.cull_cost_multiple`, `ads.thresholds.decision_metric_order`, `ads.objective`).
-Look in this order: see `core/client-config`. **These keys have no defaults.** If one is empty, ask the owner for it before building or reading a test that depends on it. In an unattended run, report the numbers and the missing key, and conclude nothing.
+Look in this order: see `core/client-config`. The template comes filled in with these defaults (default; a client's config can override). If a key is absent from an older file, use the default and say so.
+
+| Key | Default |
+|---|---|
+| `min_impressions_per_cell` | 300 |
+| `min_leader_link_clicks` | 25 |
+| `spend_share_band` | [40, 60] |
+| `cells_per_test` | 2 |
+| `cull_cost_multiple` | 2 |
+| `decision_metric_order` | cost per link click, cost per landing page view, cost per add to cart, purchases |
 
 Tools: read core/platform-adapters for this platform's tool names.
 
@@ -22,7 +31,7 @@ Tools: read core/platform-adapters for this platform's tool names.
 The test's cells, and per cell for the test window: spend, impressions, link clicks, landing page views, adds to cart, purchases. Plus the store's orders for the same window, from all channels.
 
 ## Steps: building a test that can be read
-1. **Few cells.** `cells_per_test` ads. Every extra cell splits the money further; a set with many ads once gave nearly all of the spend to half of them and almost nothing to the rest.
+1. **Two cells.** `cells_per_test` ads, two by default. Every extra cell splits the money further, and a set with many ads tends to give nearly all of the spend to a few of them.
 2. **Never run a creative split test inside a CBO campaign.** A platform split test inside CBO only fixes the test's own small budget; CBO moves the rest freely. One such test sent most of the money to one cell and bought more than a week of nothing readable.
 3. **One ABO ad set per cell**, each with the same fixed daily budget. One ad per ad set.
 4. **Only the tested variable differs.** Same targeting, placements, schedule and destination in every cell.
@@ -32,7 +41,7 @@ The test's cells, and per cell for the test window: spend, impressions, link cli
 
 ## Steps: reading a result
 1. **Check the store first.** Pull the store's orders for the window with no channel filter. If the store sold nothing on any channel, the ad numbers say nothing about the creative. Report that first and conclude nothing.
-2. **Check the split held.** Compute each cell's share of spend. Outside `spend_share_band`, the test did not run. Rebuild it; do not report a winner. A starved cell is not a losing cell.
+2. **Check the split held.** Compute each cell's share of spend. Outside `spend_share_band` (default 40/60), the test did not run. Rebuild it; do not report a winner. A starved cell is not a losing cell.
 3. **Apply the creative gate.** Readable only when every cell has at least `min_impressions_per_cell` impressions and the leader has at least `min_leader_link_clicks` link clicks. Below either: the answer is CONTINUE. Say how far off each number is.
 4. **Never decide a creative test on purchases.** With zero conversions, the highest true conversion rate still plausible (rule of three, 95%) is about 3 divided by the visits:
 
@@ -43,11 +52,11 @@ The test's cells, and per cell for the test window: spend, impressions, link cli
    | 500 | 0.60% |
    | 1,000 | 0.30% |
 
-   At small volume a zero-purchase week is not evidence that a creative failed. Purchases answer one slower question: does paid advertising pay at all. Ask it only once enough orders have come in to answer it, on a longer cycle than creative tests.
-5. **Decide on the metric order.** Use `decision_metric_order`, earliest funnel step first. Purchases only confirm (step 4). For a leads objective, cost per lead takes the place of purchases.
+   At small volume a zero-purchase week is not evidence that a creative failed. Purchases answer one slower question: does paid advertising pay at all. Ask it monthly, not weekly.
+5. **Decide on the metric order.** Use `decision_metric_order`: by default cost per link click first, then cost per landing page view, then cost per add to cart. Purchases only confirm. For a leads objective, cost per lead takes the place of purchases.
 6. **"Inconclusive" is a valid result.** Say it when the cells were not funded alike or the sample was thin.
 7. **Cull only past the gate.** Pause a creative only when it has at least `min_impressions_per_cell` impressions and costs more than `cull_cost_multiple` times the leader per landing page view. Below the impression gate, take no action at all.
-8. **State the source of every threshold** in the verdict: the key in the client's `ads.yaml`, or the owner's answer when you asked.
+8. **State the source of every threshold** in the verdict: the client's `ads.yaml` or the default here.
 
 ## Don't fool yourself
 - A starved cell is not a losing cell. Check spend share before naming a winner.
@@ -63,7 +72,7 @@ A verdict per test: readable or not (with the gap), winner, loser or inconclusiv
 
 ## Known failures
 - **More than a week and a full test budget bought no answer.** Cause: a split test inside CBO; most of the spend went to one cell. Fix: one ABO ad set per cell (building step 2 and 3).
-- **A "test" with many ads gave almost all the money to a few.** Fix: few cells (building step 1).
+- **A "test" with many ads gave almost all the money to a few.** Fix: two cells (building step 1).
 - **Risk: judging a creative on a zero-purchase week.** At small volume it proves nothing. Fix: the purchase rule and the rule-of-three table (reading step 4).
 - **Risk: blaming the ads in a week the whole store sold nothing.** Fix: check the store first, all channels (reading step 1).
 - **A new ad could not be swapped into a running A/B study.** Cause: study cells are bound to ad IDs. Fix: cancel the study and create a new one (building step 6).

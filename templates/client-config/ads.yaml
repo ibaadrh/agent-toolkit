@@ -12,24 +12,24 @@ ads:
     raise_below: 0
     hold_between: [0, 0]
     stop_counter_above: 0
-  thresholds:               # the owner's numbers; no defaults. An empty key means ask before deciding on it
-    min_impressions_per_cell:
-    min_leader_link_clicks:
-    decay_cpc_pct:
-    decay_ctr_pct:
-    max_frequency:
-    overspend_pct:
-    spend_share_band: []    # [low, high] share of spend per cell, in %
-    cells_per_test:
-    cull_cost_multiple:     # cull a creative past the impression gate at more than this × the leader's cost per LPV
-    decision_metric_order: []   # e.g. [cost_per_link_click, cost_per_lpv, cost_per_atc, purchases]
-    budget_step_pct:
-    budget_step_min_days:
-    data_window_days:       # the strategist's fresh-data window
-    baseline_days:          # a live winner is compared with its own trailing baseline over this many days
-    max_failed_refinements: # refinements of one angle in a row that failed before a new test
+  thresholds:               # the author's defaults; a client's config can override
+    min_impressions_per_cell: 300
+    min_leader_link_clicks: 25
+    decay_cpc_pct: 30
+    decay_ctr_pct: 30
+    max_frequency: 3
+    overspend_pct: 150
+    spend_share_band: [40, 60]
+    cells_per_test: 2
+    cull_cost_multiple: 2   # cull a creative past the impression gate at more than this × the leader's cost per LPV
+    decision_metric_order: [cost_per_link_click, cost_per_lpv, cost_per_atc, purchases]
+    budget_step_pct: 25
+    budget_step_min_days: 4
+    data_window_days: 7     # the strategist's fresh-data window
+    baseline_days: 14       # a live winner is compared with its own trailing baseline over this many days
+    max_failed_refinements: 2   # refinements of one angle in a row that failed before a new test
   attribution:
-    shopify_utm_field: ""   # which visit's utm_content counts, e.g. lastVisit.utmParameters.content
+    shopify_utm_field: lastVisit.utmParameters.content   # default; a client's config can override
   video:
     credits_per_clip: 0     # check the generator's current price
     min_credit_balance: 0   # never start a round below this balance

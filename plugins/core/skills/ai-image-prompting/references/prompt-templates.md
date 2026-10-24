@@ -1,6 +1,6 @@
 # Prompt templates
 
-Fill the `<...>` parts from the client's config and the brief. Words in plain text are mechanics that hold for any client; keep them. Style (genre, mood, light, people, composition) never comes from this file: it comes from `brand.image_style`, `brand.audience` and the layout. With an empty key, ask.
+Fill the `<...>` parts from the client's config and the brief. Words in plain text are proven wording; keep them. The people, composition, light and lens wording here is the author's default; a client's `brand.image_style` or layout can override it. The client's own style block, closing line and audience come only from their config; with an empty key, ask.
 
 ## 1. Product hero
 
@@ -15,9 +15,9 @@ Rules for filling it:
 - Leave out lines that do not apply (no cable, no light). Keep "No text." always.
 
 ### Scene block (swap per layout)
-The composition (what is where, what is sharp, whether people appear) comes from the layout and `brand.image_style`. Whatever the composition, the block names: the setting and light, where the product sits and how it lies, every connection end by end, every other device generically, any people, the reserved zones, and the lens.
+Default order (a client's layout can change it): the setting and light, then the sharp foreground with the product and the full chain, then the person behind, then the reserved zones, then the lens.
 
-> <brand.image_style.style_block>, <setting and light>. <Where the layout puts the product, and how it lies per the spec>; <product>'s <accessory> connects to the <device>'s <port> and to <product>; <every other connection, end by end>. <Other devices, named generically with material and colour>. <People, if the layout has them: from brand.audience and brand.image_style.people>. <Zones the layout needs>. <lens>.
+> <brand.image_style.style_block>, <time of day>: <setting>, <light source>. Sharp foreground: <generic device, with material and colour> <lying how>; <product>'s <accessory> connects to the <device>'s <port> and to <product>; <every other connection, end by end>. <Product> <how it lies, per the spec>. Behind, blurred, <person from brand.audience, candid and mid-moment, doing what>. <Zone the layout needs>. <lens>, natural skin.
 
 ### Worked example (a made-up product, product block only)
 > Use the attached images as the exact sensor and its cable; copy its shape exactly. Sensor: matte white soft-touch square, 40 x 40 x 14 mm, a rounded square from above with 8 mm corners (not a disc, not a puck, not a cube); flat top with a shallow chamfer on every edge; small grey wave mark near one corner, a simple mark; one USB-C port centred in one side; status light off. Its own cable: round white braided, 3 mm, white USB-C plugs. Real cables only: true thickness, plugs fully seated, natural slack. No text.
@@ -37,7 +37,7 @@ Rules:
 
 ## 3. Presenter video (first frame plus a short clip)
 
-> <camera and framing from the client's video config or the brief>. Same <person> as the first frame, face unchanged. <What they do with the product, from the brief>. <They> talk to camera in <language>: "<line, short enough to say naturally in the clip's length>" No text<, and no music if the edit adds its own>.
+> <camera and framing from the client's video config or the brief>. Same <person> as the first frame, face unchanged. <What they do with the product, from the brief>. <They> talk to camera in <language>, relaxed and natural: "<line, by default at most about 19 words for 8 seconds>" No text<, and no music if the edit adds its own>.
 
 Rules:
 - Keep it plain. No "pores", "skin texture" or "ultra detailed".
@@ -51,7 +51,7 @@ Rules:
 > Keep everything exactly the same: person, pose, lighting, background, framing. Replace only the <product> and its <accessory> with the exact <product> and <accessory> from the reference images: <the measured shape in one line>, <logo, one line>, <finish>, plugs fully seated.
 
 **Realism fix:**
-> Keep composition, product and lighting unchanged. <What is wrong with the people, fixed toward brand.image_style.people>.
+> Keep composition, product and lighting unchanged. Make the skin natural and unretouched, let the smile reach the eyes, slightly lower saturation.
 
 Fix prompts redraw the product again. When a render of the real product exists, pasting the render back over the generated product is more reliable.
 
@@ -60,7 +60,7 @@ Fix prompts redraw the product again. When a render of the real product exists, 
 - [ ] Product block is the stored version, unchanged
 - [ ] Every connection spelled out, end by end
 - [ ] Every other device named generically, with material and colour
-- [ ] Style, people and light from the client's config, not from memory or an example
+- [ ] Style block and audience from the client's config; people candid, mid-moment, natural skin, behind and blurred when the product leads (defaults)
 - [ ] One light, one lens
 - [ ] Nothing from the ban list; "No text." present
 - [ ] References: tight crops, every side, none banned, none in a wrong state

@@ -194,8 +194,8 @@ From the audit, these repeat across your skills and become single modules:
 | `shell-safety-guard` (zsh traps, portable script plus hook) | every skill that runs shell commands |
 | `resume-session`, `wrap-up-session`, `park-a-note` (session notes) | every project |
 | `meta-creative-publish` + `shopify-cdn-publish` | static ads, video ads, campaigns |
-| `readable-test-doctrine` (readability gates set per client, ABO never CBO, spend-share check, rule of three) | strategist, campaigns |
-| `claims-and-voice-rules` (truthfulness rules, approved-claims list, the client's voice file) | all copy |
+| `readable-test-doctrine` (300 impressions / 25 clicks default gates, ABO never CBO, 40/60 check, rule of three) | strategist, campaigns |
+| `claims-and-voice-rules` (truthfulness rules, default copy rules such as no em dashes, approved-claims list, voice file) | all copy |
 | `browser-automation-hygiene` (wake a hidden page, stale screenshots, no native dialogs) | Firefly, cloners |
 | `llm-council` | any decision |
 | `client-config` (the loader convention from section 4) | every skill |

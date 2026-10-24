@@ -12,12 +12,14 @@ Andrej
 Karpathy
 
 # Phrases
-Claude Code
-GitHub Actions
-Bambu Lab
 App Store
-Play Store
+Bambu Lab
+Brand Kit
+Claude Code
 Co-Authored-By
+Drop Footage Here
+GitHub Actions
+Play Store
 
 # Public tools, platforms and companies
 Adobe
@@ -157,6 +159,7 @@ ARISING
 AS
 ASO
 ASS
+ATC
 AUTHORS
 B2B
 BB
@@ -195,6 +198,7 @@ DOCTYPE
 DOM
 DTD
 EAS
+EDEDED
 EN
 ESP32
 EVENT
@@ -390,24 +394,6 @@ WebFetch
 WebSearch
 
 # Code identifiers, keys, environment variables and tool-name prefixes (platform-adapters)
-AT_LEAST
-BAMBU_HOST
-BAMBU_SERIAL
-BAMBU_TOKEN
-BRIGHTDATA_API_KEY
-CLAUDE_PLUGIN_ROOT
-CREATED_AT
-DS_Store
-GEMINI_API_KEY
-GOOGLE_PROJECT_ID
-HARVEST_DEFAULT_REPO
-HARVEST_SYNCED_DIR
-RUNWAYML_API_SECRET
-WD_ROW_HEIGHT_RULE
-ZohoMail_sendEmail
-__SELECTORS
-__TOOLKIT_DIR__
-__VOLUME__
 __addRef
 __checkSelectors
 __clearRefs
@@ -415,18 +401,29 @@ __dlMedia
 __frameDiff
 __genOne
 __seedKnown
+__SELECTORS
 __setFrame
 __setPrompt
 __speechLang
 __speechText
+__TOOLKIT_DIR__
+__VOLUME__
 __waitFor
+AT_LEAST
+BAMBU_HOST
+BAMBU_SERIAL
+BAMBU_TOKEN
+BRIGHTDATA_API_KEY
+CLAUDE_PLUGIN_ROOT
 contentType
 contextFileName
+CREATED_AT
 createdAt
 currencyCode
 customerJourneySummary
 dBTP
 devices__Claude_Browser__
+DS_Store
 enabledPlugins
 endCursor
 exFAT
@@ -438,19 +435,20 @@ fileStatus
 fileUuid
 firstVisit
 fldChar
+GEMINI_API_KEY
+GOOGLE_PROJECT_ID
+HARVEST_DEFAULT_REPO
+HARVEST_SYNCED_DIR
 hasNextPage
 hooksPath
 httpMethod
-iOS
 includeCoAuthoredBy
 insertText
 instrText
+iOS
 lastVisit
 macOS
 makeFile
-mcpServers
-mcp__Claude_Browser__
-mcp__Meta_Ads__
 mcp__claude_ai_Canva__
 mcp__claude_ai_Gmail__create_draft
 mcp__claude_ai_Google_Drive__
@@ -458,23 +456,30 @@ mcp__claude_ai_Meta_Ads__
 mcp__claude_ai_Meta_Ads__ads_library_search
 mcp__claude_ai_Shopify__
 mcp__claude_ai_ZohoMCP__ZohoMail_sendEmail
+mcp__Claude_Browser__
+mcp__Meta_Ads__
+mcpServers
 mimeType
 minWidth
 nPrivate
+OPT_IN
 originalSource
 pageInfo
 preToolUse
 resourceUrl
-sS
+RUNWAYML_API_SECRET
 sessionStorage
 shopMoney
 sortKey
-stageIt
+sS
 stagedTargets
 stagedUploadsCreate
+stageIt
 totalPriceSet
 userErrors
 utmParameters
+WD_ROW_HEIGHT_RULE
+ZohoMail_sendEmail
 
 # Ordinary words written with a capital
 Accessibility
@@ -542,6 +547,7 @@ Executor
 Expansionist
 Experts
 Files
+Final
 First
 Flatten
 Fontname
@@ -560,6 +566,7 @@ Info
 Integrated
 Invoke
 Italic
+Lasts
 Lean
 Library
 License
@@ -591,6 +598,7 @@ Project
 Projects
 Propose
 Protecting
+Readers
 Realism
 Recommendation
 Refresh

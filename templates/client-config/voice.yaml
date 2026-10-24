@@ -3,9 +3,11 @@ voice:
   person: ""                # we / I / brand name
   banned_words: []
   banned_phrases: []
-  rules: []                # the client's house rules, one line each (punctuation, how numbers are written, emoji)
+  rules:                    # the defaults (core/claims-and-voice-rules) apply anyway; add house rules, or switch a default off here
+    - "No em dashes."
+    - "Specific beats impressive: write the number."
   approved_claims: []       # the only claims allowed in copy, verbatim
-  claim_rules: []           # how claims may be phrased, per language
+  claim_rules: []           # how claims may be phrased, per language, e.g. the translated forms of "up to"
   spoken_variants: []       # claims said differently than written
   do_not: []                # habits that break the voice, one line each
   examples: []              # verbatim pieces the owner approved, with where each was used

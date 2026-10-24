@@ -157,7 +157,7 @@ window.__setPrompt = p => {
 
 // ---- Firefly Speech ----
 window.__speechText = t => { const el = deep(document, window.__SELECTORS.speech.text)[0]; el.focus(); document.execCommand('selectAll'); document.execCommand('insertText', false, t); return el.innerText.length; };
-window.__speechLang = async code => { // e.g. 'en-US', 'fr-FR'
+window.__speechLang = async code => { // a language code from video.tts.languages
   deep(document, window.__SELECTORS.speech.language)[0].click(); await wait(800);
   deep(document, `sp-menu-item[value="${code}"]`).filter(e => e.getBoundingClientRect().width > 0)[0].click(); await wait(800);
 };

@@ -8,7 +8,7 @@ video:
     notes: ""               # e.g. pixel patches applied to the first frame
   tts:
     voice: ""
-    languages: []           # language codes, e.g. [en-US]
+    languages: []           # language codes for speech
   end_card:
     cta: {}                 # language → call to action
     footer_line: ""

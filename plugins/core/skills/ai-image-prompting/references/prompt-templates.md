@@ -15,9 +15,9 @@ Rules for filling it:
 - Leave out lines that do not apply (no cable, no light). Keep "No text." always.
 
 ### Scene block (swap per layout)
-Order: the setting and light, then the sharp foreground with the product and the full chain, then any person, then the reserved zones, then the lens.
+The composition (what is where, what is sharp, whether people appear) comes from the layout and `brand.image_style`. Whatever the composition, the block names: the setting and light, where the product sits and how it lies, every connection end by end, every other device generically, any people, the reserved zones, and the lens.
 
-> <brand.image_style.style_block>, <time of day>: <setting>, <light source>. Sharp foreground: <generic device, with material and colour> <lying how>; <product>'s <accessory> connects to the <device>'s <port> and to <product>; <every other connection, end by end>. <Product> <how it lies, per the spec>. <Person from brand.audience, doing what brand.image_style.people says, and where in the frame>. <Zone the layout needs>. <lens>.
+> <brand.image_style.style_block>, <setting and light>. <Where the layout puts the product, and how it lies per the spec>; <product>'s <accessory> connects to the <device>'s <port> and to <product>; <every other connection, end by end>. <Other devices, named generically with material and colour>. <People, if the layout has them: from brand.audience and brand.image_style.people>. <Zones the layout needs>. <lens>.
 
 ### Worked example (a made-up product, product block only)
 > Use the attached images as the exact sensor and its cable; copy its shape exactly. Sensor: matte white soft-touch square, 40 x 40 x 14 mm, a rounded square from above with 8 mm corners (not a disc, not a puck, not a cube); flat top with a shallow chamfer on every edge; small grey wave mark near one corner, a simple mark; one USB-C port centred in one side; status light off. Its own cable: round white braided, 3 mm, white USB-C plugs. Real cables only: true thickness, plugs fully seated, natural slack. No text.

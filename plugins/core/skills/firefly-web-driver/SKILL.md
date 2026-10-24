@@ -56,7 +56,7 @@ Tools: read core/platform-adapters for this platform's tool names.
    4. **Check the model before every generation**: `__pickers()` must show the intended model (for example "Google - Veo 3.1"). The model list overlaps other panels, and a stray click has switched it to a different model.
    5. Check the credit balance first and say what the round costs (`ads.video.credits_per_clip` per clip). Below `ads.video.min_credit_balance`, stop.
    6. Download from the player's download icon (it often needs a second click), or `await __dlMedia('video', '<name>.mp4')`. Rename as in step 12.
-14. **Firefly Speech.** `__speechText(text)` (the box is contenteditable and ignores typed keys), then `await __speechLang('en-US')` (or another code from `video.tts.languages`). Pick the voice in `video.tts.voice`. Download with `await __dlMedia('audio', '<name>.wav')` or the player icon.
+14. **Firefly Speech.** `__speechText(text)` (the box is contenteditable and ignores typed keys), then `await __speechLang('<code>')` with a code from `video.tts.languages`. Pick the voice in `video.tts.voice`. If either key is empty, ask. Download with `await __dlMedia('audio', '<name>.wav')` or the player icon.
 15. **Report** in the house format: candidates made, model, credits spent.
 
 ## Output

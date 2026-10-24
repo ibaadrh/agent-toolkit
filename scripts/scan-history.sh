@@ -24,7 +24,7 @@ git rev-list --objects "$@" | while read -r obj path; do
 done >> "$tmp/lines"
 
 hits=$(LC_ALL=C grep -aiE -f "$tmp/terms" "$tmp/lines" | TERMS="$tmp/terms" perl -ne '
-  BEGIN { open(A, "scripts/allowed-terms.txt"); @a = grep { !/^\s*(#|$)/ } map { chomp; $_ } <A>;
+  BEGIN { open(A, "scripts/allowed-terms.txt"); while (<A>) { last if /^# --- generic example lines/; chomp; push @a, $_ unless /^\s*(#|$)/ }
           open(T, $ENV{TERMS}); @t = map { chomp; $_ } <T>; }
   my $body = $_; $body =~ s/\Q$_\E//gi for @a;
   for my $t (@t) { if ($body =~ /$t/i) { (my $p = substr($_, 0, 240)) =~ s/\s+$//; $p =~ s/[^\x20-\x7e]/?/g; print "$p\n"; last } }')

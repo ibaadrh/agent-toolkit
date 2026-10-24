@@ -1,0 +1,22 @@
+# Runs scripts/validate.sh on every push to main, so pushes from another computer or from the website are checked
+# too. The private forbidden-terms lists are not available here; the allowlist check (scripts/check-allowlists.py)
+# is what protects clients in CI.
+name: validate
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: validate.sh
+        run: ./scripts/validate.sh
+      - name: scan-history.sh (whole history, generic terms)
+        run: ./scripts/scan-history.sh

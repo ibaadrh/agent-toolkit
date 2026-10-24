@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
-# Validate the marketplace, every plugin, and every SKILL.md. Also scan for client data that must not be here.
+# Validate the marketplace, every plugin, and every SKILL.md. Also scan for client data that must not be here:
+# known client terms (forbidden-terms.txt) and anything not on the allowlists (scripts/check-allowlists.py).
 set -uo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"; cd "$HERE"
 fail=0
 
 echo "== plugin validate"
-claude plugin validate . || fail=1
+if command -v claude >/dev/null; then
+  claude plugin validate . || fail=1
+else
+  # No claude CLI (for example in GitHub Actions): at least check every manifest parses.
+  for j in .claude-plugin/marketplace.json plugins/*/.claude-plugin/plugin.json; do
+    python3 -c 'import json,sys; json.load(open(sys.argv[1]))' "$j" || { echo "invalid JSON: $j"; fail=1; }
+  done
+fi
 
 echo "== skill frontmatter"
 while IFS= read -r f; do
@@ -28,7 +36,7 @@ scan() {
            --include='*.md' --include='*.yaml' --include='*.json' --include='*.sh' \
          | grep -vE '^scripts/(forbidden|allowed)-[a-z-]+\.txt' \
          | TERMS="$terms" perl -ne '
-             BEGIN { open(A, "scripts/allowed-terms.txt"); @a = grep { !/^\s*(#|$)/ } map { chomp; $_ } <A>;
+             BEGIN { open(A, "scripts/allowed-terms.txt"); while (<A>) { last if /^# --- generic example lines/; chomp; push @a, $_ unless /^\s*(#|$)/ }
                      open(T, $ENV{TERMS}); @t = map { chomp; $_ } <T>; }
              my ($file, $line, $body) = split(/:/, $_, 3); $body =~ s/\Q$_\E//gi for @a;
              for my $t (@t) { if ($body =~ /$t/i) { print; last } }')
@@ -48,6 +56,10 @@ echo "== tool-name scan"
 # Skills name actions, not tools. Tool names may appear only in plugins/core/skills/platform-adapters/.
 grep -vE '^\s*(#|$)' scripts/forbidden-tool-names.txt > "$tmp/tools"
 scan "platform tool names (write the action instead; see core/platform-adapters)" "$tmp/tools" platform-adapters
+
+echo "== allowlist check"
+# Names, domains, emails and client-like data that are not on the allowlists (see AGENTS.md).
+python3 -I scripts/check-allowlists.py || fail=1
 
 if command -v skills-ref >/dev/null; then
   echo "== skills-ref"; find plugins -name SKILL.md -exec dirname {} \; | xargs -n1 skills-ref validate || fail=1

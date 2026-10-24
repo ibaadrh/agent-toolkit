@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Push guard: blocks a push unless scripts/validate.sh passes (working tree) and scripts/scan-history.sh finds no
-# client-specific terms in the commits being pushed. Installed by scripts/install.sh (git config core.hooksPath).
-# Bypass once, only if you are sure: git push --no-verify
+# Push guard: blocks a push unless scripts/validate.sh passes (working tree), and for every pushed commit range:
+# scripts/scan-history.sh finds no client-specific terms, scripts/check-allowlists.py passes on the pushed tree, and a
+# fresh agent reviewing only the diff (scripts/fresh-eyes-review.sh) finds nothing that identifies a client or borrows
+# a client's style. Installed by scripts/install.sh (git config core.hooksPath). Never bypass it (AGENTS.md).
 set -uo pipefail
 cd "$(git rev-parse --show-toplevel)" || exit 1
 fail=0
@@ -12,12 +13,17 @@ out=$(./scripts/validate.sh 2>&1) || { echo "$out"; fail=1; }
 while read -r _ local_sha _ remote_sha; do
   [[ "$local_sha" =~ ^0+$ ]] && continue                         # deleting a branch: nothing to scan
   if [[ ! "$remote_sha" =~ ^0+$ ]] && git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
-    range=("$remote_sha..$local_sha")
+    range=("$remote_sha..$local_sha"); base="$remote_sha"
   else
     range=("$local_sha" --not --remotes)                          # new branch or unknown remote state
+    base=$(git hash-object -t tree /dev/null)                     # review everything against an empty tree
   fi
   echo "pre-push: scan-history.sh ${range[*]}"
   ./scripts/scan-history.sh "${range[@]}" || fail=1
+  echo "pre-push: check-allowlists.py --rev $local_sha"
+  python3 -I scripts/check-allowlists.py --rev "$local_sha" || fail=1
+  echo "pre-push: fresh-eyes-review.sh $base $local_sha"
+  ./scripts/fresh-eyes-review.sh "$base" "$local_sha" || fail=1
 done
 
-(( fail == 0 )) || { echo "pre-push: push blocked. Fix the findings above (and add new terms to the private forbidden-terms.txt)."; exit 1; }
+(( fail == 0 )) || { echo "pre-push: push blocked. Fix the content above; never use --no-verify or weaken the lists."; exit 1; }

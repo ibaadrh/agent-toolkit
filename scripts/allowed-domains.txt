@@ -1,0 +1,67 @@
+# URLs and domains the allowlist check (scripts/check-allowlists.py) accepts. One per line.
+# A host (claude.ai) covers its subdomains and every path. host/path covers that path and below.
+# An entry ending in $ must match exactly. Only official docs, public tools, and the repos of tools listed in
+# docs/THIRD-PARTY.md. Never a client's site or store.
+
+# Official docs and public tools
+agentskills.io
+claude.ai
+claudemarketplaces.com
+cursor.com
+developers.figma.com
+mcp.figma.com
+developers.openai.com
+learn.chatgpt.com
+firefly.adobe.com
+geminicli.com
+mcp.wix.com
+ui.shadcn.com
+www.apple.com/DTDs
+www.npmjs.com/package/@shopify/dev-mcp
+meta-ads.mcp.pipeboard.co
+
+# This repo
+github.com/ibaadrh/agent-toolkit
+
+# Third-party repos (docs/THIRD-PARTY.md, docs/RESEARCH-2026-10-16.md)
+github.com/AgriciDaniel/claude-ads
+github.com/AgriciDaniel/claude-seo
+github.com/ConechoAI/Nano-Banana-MCP
+github.com/DMontgomery40/bambu-printer-mcp
+github.com/JCodesMore/ai-website-cloner-template
+github.com/Jakeschincariol/replica-skill
+github.com/Leonxlnx/taste-skill
+github.com/Shopify/Shopify-AI-Toolkit
+github.com/SimoneAvogadro/android-reverse-engineering-skill
+github.com/ahujasid/mcp-for-blender
+github.com/android/skills
+github.com/anthropics/claude-plugins-official
+github.com/appeeky/aso-skills
+github.com/brightdata/skills
+github.com/cleydson/flutter-claude-code
+github.com/coreyhaines31/marketingskills
+github.com/digitalsamba/claude-code-video-toolkit
+github.com/earthtojake/text-to-cad
+github.com/educlopez/ui-craft
+github.com/expo/skills
+github.com/googleanalytics/google-analytics-mcp
+github.com/mixelpixx/KiCAD-MCP-Server
+github.com/multica-ai/andrej-karpathy-skills
+github.com/neka-nat/freecad-mcp
+github.com/nextlevelbuilder/ui-ux-pro-max-skill
+github.com/obra/superpowers
+github.com/openai/codex
+github.com/pbakaus/impeccable
+github.com/realkimbarrett/advertising-skills
+github.com/remotion-dev/skills
+github.com/runwayml/skills
+github.com/truongduy2611/app-store-preflight-skills
+github.com/vercel-labs/skills
+github.com/wix/skills
+github.com/ychoi-kr/claude-ffmpeg-skill
+github.com/zubair-trabzada/geo-seo-claude
+
+# Placeholders in scripts and tests
+github.com/$1$
+example.com
+site

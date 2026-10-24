@@ -7,3 +7,67 @@ Ibaad Rahman
 88559161+ibaadrh@users.noreply.github.com
 # The AGENTS.md rule that forbids tool names has to quote two of them.
 javascript_tool or mcp__Meta_Ads__*
+
+# --- generic example lines (scripts/check-allowlists.py) ---
+# Exact lines in skills and templates that may carry a number, size or date because it is a fact about a public
+# tool or platform, a test measurement, arithmetic, or a made-up example. Never a client's value. One line each,
+# copied exactly. validate.sh and scan-history.sh read only the lines above this marker.
+4. **Design** (`mobile-ui-taste`). Screens at real device sizes. Platform conventions. Touch targets ≥44 pt.
+| `firefly-web-driver` | Driving firefly.adobe.com from a browser the agent controls: a selector check before every run, 1440×900 viewport emulation, the shadow-DOM helper set in `scripts/firefly-helpers.js` (wait-for, picker select, prompt insert, reference upload via DataTransfer to the last input, generate-and-harvest by size before blob URLs are revoked, download and rename-by-size), the 45 s script limit and background runs, the model drift check, video first frames and Firefly Speech. Last verified 2026-10-15. | built (from the static and video makers, both playbooks) |
+| `ffmpeg-vertical-toolkit` | 9:16 crop and blur-background framing (with `setsar=1`), frame-accurate trims joined by concat re-encode, never the last 0.25 s of AI clips, the loudnorm chain, ASS captions in Reels and Stories safe zones, contact sheets and strips, review re-encode, segment and join. Recipes tested 2026-10-16 in `references/recipes.md`; frame-spike, RMS-envelope and voice-pitch scripts. | built (from the video maker, the reel editor, the UGC workflow doc) |
+| `meta-creative-publish` | RGB PNG check (error_subcode 2446496), upload by public URL → image hash, creatives are immutable, create paused → preview → activate with explicit object IDs → verify `effective_status`, AI self-disclosure (OPT_IN), the Instagram `stream` placement gotcha. | built (from static-ad-maker, meta-campaigns-operator, the video maker) |
+## Tool limits (checked October 2026)
+> Use the attached images as the exact sensor and its cable; copy its shape exactly. Sensor: matte white soft-touch square, 40 x 40 x 14 mm, a rounded square from above with 8 mm corners (not a disc, not a puck, not a cube); flat top with a shallow chamfer on every edge; small grey wave mark near one corner, a simple mark; one USB-C port centred in one side; status light off. Its own cable: round white braided, 3 mm, white USB-C plugs. Real cables only: true thickness, plugs fully seated, natural slack. No text.
+Short vertical edits fail in the same few ways: a cut lands on the wrong frame, two clips will not join, the presenter's voice changes halfway, a caption sits under the platform's buttons, an AI clip glitches in its last frames. This skill holds the recipes and checks that prevent those, each tested. The result is a finished 1080×1920 video that has been looked at, measured and checked before anyone sees it.
+1. **Survey the footage.** `ffprobe` every clip (size, frame rate, rotation, duration). Make a keyframe contact sheet of each and look at it before choosing segments. Phone footage at 4K, 60 fps, rotated 90° is normal.
+3. **Cut frame-accurately.** `trim`/`atrim` per piece, the concat filter, then re-encode. Never stream copy for cuts. Never use an AI clip past its last 0.25 s (stop an 8 s clip at 7.75 s).
+4. **Build the audio.** Presenter audio uncut under their section; voice-over after it, with the gap in `video.audio.voiceover_gap_s`; music faded and placed as `video.music.*` says; `amix normalize=0` → `apad` → `loudnorm` with `video.loudnorm` → AAC 192k.
+1. A QA contact sheet of the final (one frame every 2.5 s), and a frame strip of every AI clip. Look at them.
+- **Glitches at the end of AI clips, and the product morphing when the presenter moved it.** Fix: stop at 7.75 s of 8; use the presenter only while the product looks right, and cut to real footage over hand movement.
+**Tested** means the command was run with ffmpeg 9.0 on generated test clips (an 8 s 1920×1080 clip and an 8 s 1080×1920 clip, 30 fps, with tones), and the output was checked as noted. **From the sources, not re-run** means the command comes from a real client job but could not be run on the test machine.
+## 1. Framing for 9:16 (1080×1920)
+**Vertical crop from 16:9** (tested; output 1080×1920, SAR 1:1). Pick X so the subject is centred (0 to 1312 on a 1920 wide source).
+**Wide shot over a blurred copy of itself** (tested; output 1080×1920, SAR 1:1). `<W>` is 1080 × `video.framing.wide_zoom` (1080 fits the width exactly; more crops the sides). `<blur>` is `video.framing.background_blur` (a `boxblur` value) and `<darken>` is `video.framing.background_darken` (an `eq` brightness, 0 for none).
+Trim each piece with `trim`/`atrim` and join with the concat filter, then re-encode. Never stream copy (`-c copy`) for cuts: it can only cut on keyframes. Tested: two pieces of 2.3 s and 2.0 s joined to 4.30 s and 129 frames.
+-map "[v]" -map "[a]" -c:v libx264 -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k <cut.mp4>
+**AI video clips:** never use the last 0.25 s. An 8 s generated clip glitches in its final ~0.1 s, so stop every trim at 7.75 s.
+-map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -shortest <out.mp4>
+ffmpeg -loop 1 -i <endcard.png> -vf "zoompan=z='zoom+<zoom>':d=<frames>:s=1080x1920:fps=<fps>,setsar=1" -frames:v <frames> -c:v libx264 -pix_fmt yuv420p <endcard.mp4>
+**Safe zones on 1080×1920** (Meta guidance, as quoted by third parties):
+| Reels | bottom 35% (672 px) |
+| Stories | top 14% (270 px) and bottom 20% (384 px) |
+| All | sides 6% (65 px) |
+**Keyframe contact sheet of raw footage** (tested without the timestamp). One thumbnail every 4 s or more:
+**QA sheet of a finished vertical video**, one frame every 2.5 s (tested):
+- **Frame-difference spike scan:** `python3 scripts/frame_spikes.py <video> 3`. Flags frames that differ from the previous one by more than 3× the median. Tested: found the planned cut at 2.300 s (41.9× the median) and nothing else. A spike inside an AI clip is a glitch.
+- **RMS envelope:** `python3 scripts/rms_envelope.py <file> words` lists sound bursts (tested: found 1.00 to 1.80 s and 2.40 to 3.60 s exactly). `... drop` reports the time of the largest loudness jump and nothing else (tested: found 4.00 s).
+- **Voice pitch:** `python3 scripts/voice_pitch.py <file> <start_s> 1`. Tested: 130 Hz and 150 Hz tones read as 130 and 150. Two clips of the same presenter should land within about 5 Hz; 130 against 150 is audible.
+**Split into parts and join again** (tested: 240 frames before, 240 after). Parts can use stream copy because the review copy has regular keyframes. Use a segment length that keeps each part under the size cap (14 s at the bitrate above stays under 30 MB).
+Prints the estimated F0 in Hz. Two clips of the same person should land within about 5 Hz;
+a gap like 130 Hz against 150 Hz is audible. Measure a stretch where the person is speaking.
+5. **Respect the size limit.** A single write onto the user's machine can be capped (30 MB per file on the Claude app's device bridge). For a larger file:
+- **A large video would not write.** Cause: the per-file cap (30 MB on the Claude app's device bridge). Fix: split, write the parts, join on the machine, check the frame count (step 5).
+- **An image arrived corrupted.** Cause: image bytes or base64 were passed through the agent's own messages. Fix: move files only with file tools or by URL. A Drive download can come back as base64 inside JSON (files up to about 10 MB); decode it with a script, not by copying text.
+Last verified: 2026-10-15 (image), 2026-10-13 (video and Speech). Adobe changes the UI; step 1 checks before every run.
+4. **Emulate a desktop window.** A narrow browser pane makes Firefly fall back to its compact layout and hide the settings panel. Resize the window to 1440×900 while driving it ("resize the browser window"), and set it back to the desktop preset before taking screenshots and when done.
+7. **Respect the 45-second limit.** One browser script call gives up after about 45 s. Run one generation per call, or start one in the background (`window.__bg = __genOne()`) and check `__gen.length` in later calls.
+1. Note each Blob's size (`__gen.map(b => b.size)`), then `__dl(i, '<name>.png')` about 2.5 s apart.
+4. Copy the files into the working area to judge them at full size ("copy a file from the user's machine into the working area"). Browser screenshots come back about 580 px wide, too small to judge detail.
+- **Scripts died mid-generation.** Cause: the browser script call gives up after about 45 s. Fix: one generation per call, or a background run (step 7).
+- **The settings panel was missing.** Cause: the narrow pane switched Firefly to its compact layout. Fix: emulate 1440×900 (step 4).
+// Last verified against firefly.adobe.com: 2026-10-15 (image), 2026-10-13 (video, Speech).
+// One generation per call: the browser script call gives up after about 45 s.
+// Call about 2.5 s apart. Note each Blob's size: __gen[i].size.
+// Compare an image element (e.g. the frame panel's thumbnail) with the stored frame on a 40×70 canvas. About 0 = same image.
+Find these with "find files in the workspace" and read them quickly. Don't spend more than 30 seconds on this. You're looking for the 2-3 files that would give advisors the context they need to give specific, grounded advice instead of generic takes.
+- an image is `mode == "RGB"` (Python: `PIL.Image.open(p).mode`). Convert anything else with `.convert("RGB")` and save again. Meta rejects palette PNGs with error_subcode 2446496.
+- the size is exact for its ratio (for example 1080×1350 for 4:5, 1080×1920 for 9:16).
+- **Upload rejected with error_subcode 2446496.** Cause: a palette (indexed colour) PNG. Fix: convert to RGB (step 1).
+| write file to device | `Write` (or `Bash` `mv`) | `device_commit_files` (needs the file's fileUuid from "deliver the file to the user"; at most 30 MB per file) |
+| run JavaScript in the browser page | `javascript_tool` | `javascript_tool` (about 45 s per call) |
+1. **Look at the product at 1:1.** Crop the product region of the full-size file and look at it next to the real reference photos. Never judge from a browser screenshot; it is too small. If reference renders exist, also overlay the closest one at the same scale at 50% opacity.
+4. **Never decide a creative test on purchases.** With zero conversions, the highest true conversion rate still plausible (rule of three, 95%) is about 3 divided by the visits:
+| 100 | 3.0% |
+| 300 | 1.0% |
+| 500 | 0.60% |
+| 1,000 | 0.30% |

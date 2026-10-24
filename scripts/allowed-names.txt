@@ -18,7 +18,6 @@ Bambu Lab
 App Store
 Play Store
 Co-Authored-By
-Focus-GTS
 
 # Public tools, platforms and companies
 Adobe
@@ -217,7 +216,6 @@ GEO
 GG
 GLB
 GPL
-GTS
 GUI
 HH
 HOLDERS

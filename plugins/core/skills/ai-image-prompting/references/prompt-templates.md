@@ -17,7 +17,7 @@ Rules for filling it:
 ### Scene block (swap per layout)
 Order: the setting and light, then the sharp foreground with the product and the full chain, then any person, then the reserved zones, then the lens.
 
-> <brand.image_style.style_block>, <time of day>: <setting>, <light source>. Sharp foreground: <generic device, with material and colour> <lying how>; <product>'s <accessory> connects to the <device>'s <port> and to <product>; <every other connection, end by end>. <Product> <how it lies, per the spec>. <Person from brand.audience, doing what brand.image_style.people says, and where in the frame>. <Zone the layout needs>. <lens>, natural skin.
+> <brand.image_style.style_block>, <time of day>: <setting>, <light source>. Sharp foreground: <generic device, with material and colour> <lying how>; <product>'s <accessory> connects to the <device>'s <port> and to <product>; <every other connection, end by end>. <Product> <how it lies, per the spec>. <Person from brand.audience, doing what brand.image_style.people says, and where in the frame>. <Zone the layout needs>. <lens>.
 
 ### Worked example (a made-up product, product block only)
 > Use the attached images as the exact sensor and its cable; copy its shape exactly. Sensor: matte white soft-touch square, 40 x 40 x 14 mm, a rounded square from above with 8 mm corners (not a disc, not a puck, not a cube); flat top with a shallow chamfer on every edge; small grey wave mark near one corner, a simple mark; one USB-C port centred in one side; status light off. Its own cable: round white braided, 3 mm, white USB-C plugs. Real cables only: true thickness, plugs fully seated, natural slack. No text.
@@ -51,7 +51,7 @@ Rules:
 > Keep everything exactly the same: person, pose, lighting, background, framing. Replace only the <product> and its <accessory> with the exact <product> and <accessory> from the reference images: <the measured shape in one line>, <logo, one line>, <finish>, plugs fully seated.
 
 **Realism fix:**
-> Keep composition, product and lighting unchanged. Make the skin natural and unretouched.
+> Keep composition, product and lighting unchanged. <What is wrong with the people, fixed toward brand.image_style.people>.
 
 Fix prompts redraw the product again. When a render of the real product exists, pasting the render back over the generated product is more reliable.
 

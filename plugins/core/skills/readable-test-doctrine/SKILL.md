@@ -67,7 +67,7 @@ A verdict per test: readable or not (with the gap), winner, loser or inconclusiv
 - **Risk: judging a creative on a zero-purchase week.** At small volume it proves nothing. Fix: the purchase rule and the rule-of-three table (reading step 4).
 - **Risk: blaming the ads in a week the whole store sold nothing.** Fix: check the store first, all channels (reading step 1).
 - **A new ad could not be swapped into a running A/B study.** Cause: study cells are bound to ad IDs. Fix: cancel the study and create a new one (building step 6).
-- **A campaign spent about a quarter more than its daily budget in one day.** Fix: read actual daily spend, never the setting.
+- **A campaign spent well over its daily budget in one day.** Fix: read actual daily spend, never the setting.
 
 ## References
 - None. The tables above are the whole doctrine.

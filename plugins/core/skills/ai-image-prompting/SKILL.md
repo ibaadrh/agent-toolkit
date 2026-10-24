@@ -45,7 +45,7 @@ Tools: read core/platform-adapters for this platform's tool names.
    2. When the product must read large and a person is in the shot, put the devices in the sharp foreground and the person behind, out of focus. A product the model has to fit around a face comes out small.
    3. **Name every other device generically**, with material, colour and shape: "a matte grey rounded case", "a plain white remote with grey buttons". An unnamed device comes out as a famous brand's look-alike.
    4. Make the scene specific to the topic (the exact industry, task and equipment), never a generic stock scene.
-5. **People.** Who appears comes from `brand.audience`; mood, pose and what they are doing from `brand.image_style.people`. Describe an action, not a look. Add "natural skin". Never frame a person as a customer giving a testimonial.
+5. **People.** Who appears comes from `brand.audience`; mood, pose and what they are doing from `brand.image_style.people`. Describe an action, not a look. How skin and retouching should look is part of `brand.image_style.people`. Never frame a person as a customer giving a testimonial.
 6. **Light and lens.** One light source and one lens, each named. Which ones is the client's style (`brand.image_style`) or the layout's choice.
 7. **Ban list.** Never write: 8K, hyper-realistic, ultra-detailed, flawless, pores, skin texture. Never ask for text in the image ("No text." is always in the prompt). Never ask for a light or display to be on unless that is the point of the image.
 8. **Reference images.**

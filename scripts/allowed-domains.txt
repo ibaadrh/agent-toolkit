@@ -64,4 +64,4 @@ github.com/zubair-trabzada/geo-seo-claude
 # Placeholders in scripts and tests
 github.com/$1$
 example.com
-site
+site/page?x=1$

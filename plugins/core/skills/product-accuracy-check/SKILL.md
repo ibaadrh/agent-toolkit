@@ -45,7 +45,7 @@ Each candidate image at full size, the real reference photos, and, if they exist
    4. Physics: cables rest on the surface with natural slack and gravity, cast contact shadows, have no floating ends, and the chain is continuous from device to product to charger.
 6. **Check scale** against hands and other objects in the scene.
 7. **Check people and the scene.**
-   1. Natural skin, eyes and teeth; five fingers on every hand.
+   1. No AI artefacts in skin, eyes or teeth; five fingers on every hand.
    2. One light direction.
    3. No gibberish text anywhere.
    4. **Brand look-alike gate:** no other brand's logo on anything, and no device that reads as a famous brand's product (for example coloured A/B/X/Y face buttons on a game controller). One visible third-party logo is a fail.

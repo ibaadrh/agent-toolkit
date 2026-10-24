@@ -115,7 +115,7 @@ Use `core/house-report`. The two or three metrics are the ones behind the decisi
 
 ## Known failures
 - **A new creative shipped because a week had passed, while the old one was still winning.** Cause: treating ads like a content calendar. Fix: rung 4; build nothing.
-- **Spend judged from the configured budget.** Cause: budgets lie; one day ran about a quarter over. Fix: actual daily spend (step 2.4).
+- **Spend judged from the configured budget.** Cause: budgets lie; actual delivery can run over the setting. Fix: actual daily spend (step 2.4).
 - **A week the whole store sold nothing was read as a creative result.** Fix: check the store first, all channels (step 3.1).
 - **A test paused partway was judged on the report window only.** Cause: reading the report window instead of the test's own run. Fix: read the test over its whole run (step 2.2).
 - **Another product's campaigns were counted in this product's numbers.** Cause: one ad account running a second product. Fix: scope to the product (step 1.4) and list what was left out.

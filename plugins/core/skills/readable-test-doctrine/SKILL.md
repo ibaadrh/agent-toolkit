@@ -43,7 +43,7 @@ The test's cells, and per cell for the test window: spend, impressions, link cli
    | 500 | 0.60% |
    | 1,000 | 0.30% |
 
-   At small volume a zero-purchase week is not evidence that a creative failed. Purchases answer one slower question: does paid advertising pay at all. Ask it monthly, not weekly.
+   At small volume a zero-purchase week is not evidence that a creative failed. Purchases answer one slower question: does paid advertising pay at all. Ask it only once enough orders have come in to answer it, on a longer cycle than creative tests.
 5. **Decide on the metric order.** Use `decision_metric_order`, earliest funnel step first. Purchases only confirm (step 4). For a leads objective, cost per lead takes the place of purchases.
 6. **"Inconclusive" is a valid result.** Say it when the cells were not funded alike or the sample was thin.
 7. **Cull only past the gate.** Pause a creative only when it has at least `min_impressions_per_cell` impressions and costs more than `cull_cost_multiple` times the leader per landing page view. Below the impression gate, take no action at all.

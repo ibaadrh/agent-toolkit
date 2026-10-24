@@ -1,7 +1,7 @@
 # Capitalised words the allowlist check (scripts/check-allowlists.py) accepts. One per line; a line with a space
 # or hyphen is a phrase, matched as a whole. Public tools, platforms, formats and the author only: never a client,
-# a client's product, a person from client work or a place. Seeded from the repo on 24 Oct 2026 after the
-# client-style audit. Every addition is listed in the report of the session that adds it.
+# a client's product, a person from client work or a place. Seeded from the repo after the client-style audit.
+# Every addition is listed in the report of the session that adds it.
 
 # Author
 Ibaad
@@ -18,6 +18,7 @@ Bambu Lab
 App Store
 Play Store
 Co-Authored-By
+Focus-GTS
 
 # Public tools, platforms and companies
 Adobe
@@ -102,10 +103,8 @@ Wix
 Xcode
 YouTube
 Zoho
-ZohoMCP
-ZohoMail
 
-# Owners of third-party repos listed in docs/THIRD-PARTY.md
+# Owners of third-party repos listed in docs/THIRD-PARTY.md and docs/RESEARCH-2026-10-16.md
 AgriciDaniel
 ComposioHQ
 ConechoAI
@@ -155,20 +154,16 @@ ANY
 APFS
 API
 APK
-ARGUMENTS
 ARISING
 AS
 ASO
 ASS
-AT
 AUTHORS
 B2B
-BAMBU
 BB
 BE
 BLOCK
 BRIEF
-BRIGHTDATA
 BUSL
 BUT
 CAD
@@ -189,7 +184,6 @@ COPYRIGHT
 CORS
 COUNCIL
 CPM
-CREATED
 CRO
 CTR
 DAMAGES
@@ -197,12 +191,9 @@ DATE
 DD
 DEALINGS
 DECOUPLING
-DEFAULT
-DIR
 DO
 DOCTYPE
 DOM
-DS
 DTD
 EAS
 EN
@@ -225,17 +216,11 @@ GEMINI
 GEO
 GG
 GLB
-GOOGLE
 GPL
 GTS
 GUI
-H00000000
-HARVEST
-HEIGHT
 HH
 HOLDERS
-HOME
-HOST
 HOW
 HTML
 ID
@@ -253,12 +238,10 @@ ISC
 JDK
 JPEG
 JSON
-KEY
 KILL
 KIND
 LAN
 LAST
-LEAST
 LIABILITY
 LIABLE
 LICENSE
@@ -272,13 +255,11 @@ MANDATORY
 MB
 MCP
 MERCHANTABILITY
-MF
 MIME
 MIT
 MM
 MOV
 NEW
-NF
 NO
 NONINFRINGEMENT
 NOT
@@ -286,7 +267,6 @@ NOTES
 NR
 OF
 OK
-OPT
 OR
 OTA
 OTHER
@@ -302,49 +282,36 @@ PEER
 PERSONAL
 PIL
 PLIST
-PLUGIN
 PNG
 PORTABILITY
 POST
 PR
-PROJECT
 PROVIDED
 PTS
 PUBLIC
 PURPOSE
-PWD
 QA
 RATE
 README
 READY
 REFINE
-REPO
 RESEARCH
 RESPONSES
 REVIEWS
 RGB
 RMS
-ROOT
-ROW
 RR
-RULE
-RUNWAYML
 SAR
 SDK
-SECRET
-SELECTORS
 SEO
-SERIAL
 SESSION
 SHALL
-SHELL
 SKILL
 SOFTWARE
 STARTPTS
 STEP
 STL
 STRONG
-SYNCED
 SYSTEM
 TDD
 TEST
@@ -352,8 +319,6 @@ THE
 THIRD
 TK
 TO
-TOKEN
-TOOLKIT
 TORT
 TP
 TRIGGERS
@@ -371,11 +336,9 @@ V4
 VA
 VERDICT
 VOL
-VOLUME
 WARN
 WARRANTIES
 WARRANTY
-WD
 WHETHER
 WITH
 WITHOUT
@@ -384,7 +347,7 @@ XML
 YAML
 YYYY
 
-# Code identifiers, keys and mixed-case technical terms
+# Mixed-case technical terms and product spellings
 APIs
 AskUserQuestion
 BackColour
@@ -427,16 +390,45 @@ URLs
 WIDTHxHEIGHT
 WebFetch
 WebSearch
-addRef
-checkSelectors
-clearRefs
+
+# Code identifiers, keys, environment variables and tool-name prefixes (platform-adapters)
+AT_LEAST
+BAMBU_HOST
+BAMBU_SERIAL
+BAMBU_TOKEN
+BRIGHTDATA_API_KEY
+CLAUDE_PLUGIN_ROOT
+CREATED_AT
+DS_Store
+GEMINI_API_KEY
+GOOGLE_PROJECT_ID
+HARVEST_DEFAULT_REPO
+HARVEST_SYNCED_DIR
+RUNWAYML_API_SECRET
+WD_ROW_HEIGHT_RULE
+ZohoMail_sendEmail
+__SELECTORS
+__TOOLKIT_DIR__
+__VOLUME__
+__addRef
+__checkSelectors
+__clearRefs
+__dlMedia
+__frameDiff
+__genOne
+__seedKnown
+__setFrame
+__setPrompt
+__speechLang
+__speechText
+__waitFor
 contentType
 contextFileName
 createdAt
 currencyCode
 customerJourneySummary
 dBTP
-dlMedia
+devices__Claude_Browser__
 enabledPlugins
 endCursor
 exFAT
@@ -448,8 +440,6 @@ fileStatus
 fileUuid
 firstVisit
 fldChar
-frameDiff
-genOne
 hasNextPage
 hooksPath
 httpMethod
@@ -461,6 +451,15 @@ lastVisit
 macOS
 makeFile
 mcpServers
+mcp__Claude_Browser__
+mcp__Meta_Ads__
+mcp__claude_ai_Canva__
+mcp__claude_ai_Gmail__create_draft
+mcp__claude_ai_Google_Drive__
+mcp__claude_ai_Meta_Ads__
+mcp__claude_ai_Meta_Ads__ads_library_search
+mcp__claude_ai_Shopify__
+mcp__claude_ai_ZohoMCP__ZohoMail_sendEmail
 mimeType
 minWidth
 nPrivate
@@ -469,22 +468,15 @@ pageInfo
 preToolUse
 resourceUrl
 sS
-seedKnown
-sendEmail
 sessionStorage
-setFrame
-setPrompt
 shopMoney
 sortKey
-speechLang
-speechText
 stageIt
 stagedTargets
 stagedUploadsCreate
 totalPriceSet
 userErrors
 utmParameters
-waitFor
 
 # Ordinary words written with a capital
 Accessibility
@@ -506,11 +498,9 @@ Blobs
 Bold
 Brainstorm
 Bright
-Browser
 Budget
 Burn
 By
-Bypass
 Calendar
 Cap
 Caught
@@ -604,7 +594,6 @@ Projects
 Propose
 Protecting
 Realism
-Recent
 Recommendation
 Refresh
 Replacing

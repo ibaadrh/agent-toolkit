@@ -50,7 +50,7 @@ Tools: read core/platform-adapters for this platform's tool names.
 Window: the last `data_window_days` complete days.
 
 1. **Ads, per ad in scope** ("read campaigns, ad sets and ads" with metrics): spend, impressions, frequency, CTR, link clicks, cost per link click, landing page views, adds to cart, purchases (or leads), effective status, ad set, campaign.
-2. **The active test over its whole run**, not the 7-day window: the same metrics per cell from the day the test started (lifetime for those ads). A test that started before the window, or was paused inside it, is read on all its days.
+2. **The active test over its whole run**, not the data window: the same metrics per cell from the day the test started (lifetime for those ads). A test that started before the window, or was paused inside it, is read on all its days.
 3. **The live winner's baseline:** the same metrics for the winner over the previous `baseline_days`, for rungs 4 and 5.
 4. **Actual daily spend**, account level, one row per day. Configured budgets lie; delivery often runs over. If the account holds other products, also sum the in-scope campaigns per day.
 5. **Campaign settings** in scope: objective, campaign budget (set means CBO), ad set budgets, status.

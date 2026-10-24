@@ -65,6 +65,7 @@ URL = re.compile(r"https?://[^\s<>()\[\]'\"`|]+")
 DOMAIN = re.compile(r"(?<![\w@/.-])((?:[a-z0-9-]+\.)+(?:com|net|org|io|ai|tech|app|dev|co|nl|de|uk|ae|be|fr|es|it|eu|us|events|me|so|gg|xyz|info|biz|store|shop|site|online|cloud))\b(/[^\s<>()\[\]'\"`|]*)?", re.I)
 EMAIL = re.compile(r"[\w.+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b")
 WORD = re.compile(r"[A-Za-z][A-Za-z0-9]*")
+IDENT = re.compile(r"[A-Za-z0-9_]+")   # identifiers stay whole: WD_ROW_HEIGHT_RULE is one token
 DATA = [
     ("phone", re.compile(r"(?<![\w.])\+\d{1,3}[\s.-]?\d[\d\s.-]{6,}\d\b|\b0\d{1,3}[\s-]\d{3,4}[\s-]?\d{3,4}\b")),
     ("price", re.compile(r"[€£¥]\s?\d|(?<![\w\"'(])\$\s?(?:\d{2,}|\d[.,]\d)|\b\d[\d,.]*\s?(?:EUR|USD|GBP|euros?|dollars?)\b", re.I)),
@@ -95,9 +96,10 @@ def names_in(line, phrases=()):
     clean = URL.sub(" ", line)
     clean = EMAIL.sub(" ", clean)
     for ph in phrases: clean = clean.replace(ph, " ")
-    for m in WORD.finditer(clean):
+    for m in IDENT.finditer(clean):
         w = m.group(0)
-        if len(w) < 2 or not any(c.isupper() for c in w): continue
+        if len(w) < 2 or w[0].isdigit() or not any(c.isupper() for c in w): continue   # 3MF, 4K: formats
+        if m.start() and clean[m.start() - 1] == "$": continue                       # $NF, $PWD: shell variables
         start = SENTENCE_START.search(clean[:m.start()]) is not None
         yield w, start
 

@@ -2,7 +2,7 @@ brand:
   name: ""                  # e.g. the product or company name as it appears in copy
   legal_name: ""
   website: ""
-  languages: []             # order = priority, e.g. [es, en]
+  languages: []             # language codes, order = priority
   colors:
     primary: ""
     secondary: ""

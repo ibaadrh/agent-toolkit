@@ -26,10 +26,12 @@ ffmpeg -i <a.mp4> -i <b.mp4> -filter_complex "\
 [0:v]trim=start=0.6:duration=2.3,setpts=PTS-STARTPTS,setsar=1[v0];[0:a]atrim=start=0.6:duration=2.3,asetpts=PTS-STARTPTS[a0];\
 [1:v]trim=start=1:duration=2,setpts=PTS-STARTPTS,setsar=1[v1];[1:a]atrim=start=1:duration=2,asetpts=PTS-STARTPTS[a1];\
 [v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]" \
--map "[v]" -map "[a]" -c:v libx264 -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k <cut.mp4>
+-map "[v]" -map "[a]" -c:v libx264 -crf <crf> -pix_fmt yuv420p -c:a aac -b:a <audio_bitrate> <cut.mp4>
 ```
 
-**AI video clips:** never use the last 0.25 s. An 8 s generated clip glitches in its final ~0.1 s, so stop every trim at 7.75 s.
+`<crf>` and `<audio_bitrate>` are `video.encode.crf` and `video.encode.audio_bitrate`.
+
+**AI video clips** can glitch in their last frames. Check the end of every generated clip frame by frame (section 6) and end the trim before the first bad frame.
 
 ## 3. Audio
 
@@ -37,7 +39,7 @@ ffmpeg -i <a.mp4> -i <b.mp4> -filter_complex "\
 ```bash
 ffmpeg -i <video_with_presenter.mp4> -i <voiceover.wav> -filter_complex \
 "[0:a][1:a]amix=inputs=2:normalize=0,apad,loudnorm=<loudnorm>[a]" \
--map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -shortest <out.mp4>
+-map 0:v -map "[a]" -c:v copy -c:a aac -b:a <audio_bitrate> -shortest <out.mp4>
 ```
 Rules:
 - The presenter's audio plays uncut and continuous under their whole section, even across cutaways, so lip-sync stays exact.
@@ -66,7 +68,7 @@ ffmpeg -loop 1 -i <endcard.png> -vf "zoompan=z='zoom+<zoom>':d=<frames>:s=1080x1
 
 From the sources, not re-run (the test machine's ffmpeg has no libass). Burn with:
 ```bash
-ffmpeg -i <in.mp4> -vf "ass=<captions.ass>:fontsdir=<folder with the font files>" -c:v libx264 -crf 18 -pix_fmt yuv420p -c:a copy <out.mp4>
+ffmpeg -i <in.mp4> -vf "ass=<captions.ass>:fontsdir=<folder with the font files>" -c:v libx264 -crf <crf> -pix_fmt yuv420p -c:a copy <out.mp4>
 ```
 
 Template. Every `<...>` comes from `video.captions`: font, size, colour, outline, position. ASS colours are written blue-green-red (`&H<BB><GG><RR>&`).
@@ -78,7 +80,7 @@ PlayResY: 1920
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,<font>,<size>,<colour>,<colour>,<outline colour>,&H00000000,<bold -1 or 0>,0,0,0,100,100,0,0,1,<outline>,0,<alignment>,65,65,<margin_v>,1
+Style: Cap,<font>,<size>,<colour>,<colour>,<outline colour>,<back colour>,<bold -1 or 0>,<italic -1 or 0>,0,0,100,100,0,0,<border style 1 or 3>,<outline>,<shadow>,<alignment>,<margin_l>,<margin_r>,<margin_v>,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -99,15 +101,15 @@ Design to the Reels margins. A 9:16 video in a feed-only placement gets cropped 
 
 ## 6. Looking at the video (contact sheets and strips)
 
-**Keyframe contact sheet of raw footage** (tested without the timestamp). One thumbnail every 4 s or more:
+**Keyframe contact sheet of raw footage** (tested without the timestamp). One thumbnail at most every `<gap>` seconds; pick the gap and the `<cols>x<rows>` tile so the whole clip fits on one sheet:
 ```bash
-ffmpeg -skip_frame nokey -i <IMG.MOV> -vf "select='isnan(prev_selected_t)+gte(t-prev_selected_t\,4)',scale=180:-1,tile=10x6" -fps_mode vfr -frames:v 1 <sheet.jpg>
+ffmpeg -skip_frame nokey -i <IMG.MOV> -vf "select='isnan(prev_selected_t)+gte(t-prev_selected_t\,<gap>)',scale=180:-1,tile=<cols>x<rows>" -fps_mode vfr -frames:v 1 <sheet.jpg>
 ```
 The source job also stamped each thumbnail with its time by adding `drawtext=text='%{pts\:hms}':x=4:y=4:fontsize=18:fontcolor=yellow:box=1:boxcolor=black@0.6` before `tile` (needs ffmpeg with freetype; not re-run). On ffmpeg 7 and later, `-vsync vfr` is `-fps_mode vfr`.
 
-**QA sheet of a finished vertical video**, one frame every 2.5 s (tested):
+**QA sheet of a finished vertical video**, one frame every `<gap>` seconds, close enough that every shot appears (tested):
 ```bash
-ffmpeg -i <final.mp4> -vf "fps=1/2.5,scale=216:384,tile=11x2" -frames:v 1 <qa.jpg>
+ffmpeg -i <final.mp4> -vf "fps=1/<gap>,scale=216:384,tile=<cols>x<rows>" -frames:v 1 <qa.jpg>
 ```
 
 **Frame strip of an AI clip**, 2 to 4 frames a second (tested):
@@ -120,7 +122,7 @@ ffmpeg -i <clip.mp4> -vf "fps=3,scale=270:-1,tile=8x1" -frames:v 1 <strip.jpg>
 All three scripts are in `scripts/`, use only the Python standard library plus ffmpeg, and were tested on clips with known answers.
 - **Frame-difference spike scan:** `python3 scripts/frame_spikes.py <video> 3`. Flags frames that differ from the previous one by more than 3× the median. Tested: found the planned cut at 2.300 s (41.9× the median) and nothing else. A spike inside an AI clip is a glitch.
 - **RMS envelope:** `python3 scripts/rms_envelope.py <file> words` lists sound bursts (tested: found 1.00 to 1.80 s and 2.40 to 3.60 s exactly). `... drop` reports the time of the largest loudness jump and nothing else (tested: found 4.00 s).
-- **Voice pitch:** `python3 scripts/voice_pitch.py <file> <start_s> 1`. Tested: 130 Hz and 150 Hz tones read as 130 and 150. Two clips of the same presenter should land within about 5 Hz; 130 against 150 is audible.
+- **Voice pitch:** `python3 scripts/voice_pitch.py <file> <start_s> 1`. Tested: 130 Hz and 150 Hz tones read as 130 and 150. Compare the clips by ear and by number: in testing, 130 against 150 was plainly a different voice.
 
 Frame count of any file (use it after every join and against a timeline):
 ```bash

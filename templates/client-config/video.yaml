@@ -31,5 +31,8 @@ video:
     fade_in_s: ""
     fade_out_s: ""
     lead_in_s: ""           # how long before its drop a song starts, if music is timed to a drop
+  encode:
+    crf: ""                 # x264 quality for edits and burns
+    audio_bitrate: ""       # AAC bitrate
   loudnorm: ""              # ffmpeg loudnorm target, I=<LUFS>:TP=<dBTP>:LRA=<LU>
   naming: ""                # file naming pattern for finished videos

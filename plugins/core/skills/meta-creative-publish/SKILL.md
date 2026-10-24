@@ -12,7 +12,7 @@ This skill needs:
 - `meta.yaml` (keys: `meta.ad_account_id`, `meta.page_id`, `meta.instagram_account_id`, `meta.ai_disclosure`, `meta.visible_ai_line`)
 - `brand.yaml` (keys: `docs.live_state`)
 
-Look in this order: see `core/client-config`. No `meta.ad_account_id` or `meta.page_id`: stop, nothing can be published. `meta.ai_disclosure` defaults to `OPT_IN` for any creative made with AI. `meta.instagram_account_id` is needed only for Instagram placements; without it, publish to Facebook placements and say so.
+Look in this order: see `core/client-config`. No `meta.ad_account_id` or `meta.page_id`: stop, nothing can be published. An empty `meta.ai_disclosure`: ask the owner before the first upload, and publish no AI-made creative until they answer. `meta.instagram_account_id` is needed only for Instagram placements; without it, publish to Facebook placements and say so.
 
 Tools: read core/platform-adapters for this platform's tool names.
 

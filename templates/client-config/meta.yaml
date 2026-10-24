@@ -5,7 +5,7 @@ meta:
   instagram_account_id: ""
   legacy_accounts_readonly: []
   retired_campaign_ids: []
-  ai_disclosure: OPT_IN     # platform self-disclosure for AI-made creatives
+  ai_disclosure: ""         # platform self-disclosure value for AI-made creatives; empty = ask
   visible_ai_line: ""       # whether a visible "made with AI" line goes in the image; empty = ask
 shopify:
   store_domain: ""

@@ -24,7 +24,7 @@ Each candidate image at full size, the real reference photos, and, if they exist
 ## Steps
 **The gate comes before any design work. Any doubt is a no. "Close enough" never ships.**
 
-1. **Look at the product at 1:1.** Crop the product region of the full-size file and look at it next to the real reference photos. Never judge from a browser screenshot; it is too small. If reference renders exist, also overlay the closest one at the same scale at 50% opacity.
+1. **Look at the product at 1:1.** Crop the product region of the full-size file and look at it next to the real reference photos. Never judge from a browser screenshot; it is too small. If reference renders exist, also overlay the closest one at the same scale, half transparent.
 2. **Measure the silhouette, do not eyeball it.**
    1. Measure the product's long and short side in pixels along its top face.
    2. Correct for foreshortening: a side running away from the camera looks shorter by about the sine of the camera's elevation. So true ratio ≈ long ÷ (short ÷ sin(elevation)) when the short side runs away from the camera, and the other way round when the long side does.

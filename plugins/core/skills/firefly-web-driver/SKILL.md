@@ -10,7 +10,7 @@ Firefly has no API for this work, so the agent drives the website. Its UI sits i
 Last verified: 2026-10-15 (image), 2026-10-13 (video and Speech). Adobe changes the UI; step 1 checks before every run.
 
 ## Config
-This skill needs: `references.yaml` (keys: `reference_pack`), `video.yaml` (keys: `video.tts.voice`, `video.tts.languages`), `ads.yaml` (keys: `ads.video.credits_per_clip`, `ads.video.min_credit_balance`).
+This skill needs: `references.yaml` (keys: `reference_pack`), `brand.yaml` (keys: `brand.image_style.reference_background`), `video.yaml` (keys: `video.tts.voice`, `video.tts.languages`), `ads.yaml` (keys: `ads.video.credits_per_clip`, `ads.video.min_credit_balance`). The model, ratio and resolution come from the calling skill or the brief; if none says, ask.
 Look in this order: see `core/client-config`. Image runs work with an empty config (references then come from the calling skill). For video, an empty credit floor means: report the balance and the round's cost, and ask before spending.
 
 Tools: read core/platform-adapters for this platform's tool names.
@@ -31,18 +31,18 @@ Tools: read core/platform-adapters for this platform's tool names.
 6. **Paste the helpers after every navigation.** A page load wipes them.
 7. **Respect the 45-second limit.** One browser script call gives up after about 45 s. Run one generation per call, or start one in the background (`window.__bg = __genOne()`) and check `__gen.length` in later calls.
 8. **Settings (images).**
-   1. Model: `await __pick('firefly-picker-model', 'firefly-menu-item-google:firefly:colligo:nano-banana-pro')` for Nano Banana Pro.
-   2. Ratio: `await __pick('firefly-picker-size', 'firefly-menu-item-standard')` for 4:5, `'firefly-menu-item-vertical'` for 9:16.
-   3. Resolution should read 2K.
-   4. Cost: `__cost()` should read "Unlimited access". Anything else: state the cost before generating.
+   1. Model: `await __pick('firefly-picker-model', '<model item id>')`. Item ids look like `firefly-menu-item-google:firefly:colligo:nano-banana-pro`; read the current ones with `__pickers()` and the open menu.
+   2. Ratio: `await __pick('firefly-picker-size', '<ratio item id>')` (for example `firefly-menu-item-vertical`).
+   3. Resolution: check the panel reads the resolution the calling skill asked for.
+   4. Cost: read `__cost()`. If it is not free on this plan, state the cost before generating.
 9. **References.**
-   1. `await __clearRefs()`, then add each one in the calling skill's slot order: `await __addRef(await __crop('<public URL>', [0,0,1,1]), '<name>.jpg')`.
+   1. `await __clearRefs()`, then add each one in the calling skill's slot order: `await __addRef(await __crop('<public URL>', [0,0,1,1], '<brand.image_style.reference_background>'), '<name>.jpg')`.
    2. `__addRef` always writes to the last file input. Each filled slot gets its own input, and writing to the first one replaces slot 1.
    3. Check the panel reads the count you added ("Images (n/6)"; up to 6 for Nano Banana Pro).
    4. Images move in only by in-page fetch of a public URL. Never pass image bytes or base64 through your own messages. A browser page cannot read the user's disk, and Drive links are blocked inside Firefly; host references with `core/shopify-cdn-publish`.
    5. Never click "Your device". It opens a native file dialog that agent tools cannot operate.
 10. **Prompt.** `__prompt(text)` (the field ignores typed keys; this uses insertText). It returns the length; stay under 1,000 characters or the run fails with a generic "Something went wrong".
-11. **Generate and harvest.** Run `await __seedKnown()` once, so images already on the page are not counted. Then `await __genOne()` per candidate. It clicks Generate and keeps each new full-size image as a Blob in `window.__gen`, because Firefly revokes blob URLs when it re-renders. Make every candidate the calling skill asks for (usually 6 to 8).
+11. **Generate and harvest.** Run `await __seedKnown()` once, so images already on the page are not counted. Then `await __genOne(<output width in px>)` per candidate (the full-size width for the chosen ratio and resolution, so thumbnails are skipped). It clicks Generate and keeps each new full-size image as a Blob in `window.__gen`, because Firefly revokes blob URLs when it re-renders. Make every candidate the calling skill asks for (usually 6 to 8).
 12. **Download and rename by size.**
    1. Note each Blob's size (`__gen.map(b => b.size)`), then `__dl(i, '<name>.png')` about 2.5 s apart.
    2. The files land in the user's Downloads folder. In Claude Desktop they can land as hidden temp files (`~/Downloads/.<random>.com.anthropic.claudefordesktop.*`) without the given name. On the user's machine ("run a shell command on the user's machine"), list them with their sizes and `mv -n` each one whose size matches a Blob into the job folder under its proper name.
@@ -54,7 +54,7 @@ Tools: read core/platform-adapters for this platform's tool names.
    2. Check it went in: `await __frameDiff(<frame panel thumbnail element>, '<key>')` should be about 0.
    3. Prompt: `__setPrompt(text)`, at most 512 characters (template in `core/ai-image-prompting`).
    4. **Check the model before every generation**: `__pickers()` must show the intended model (for example "Google - Veo 3.1"). The model list overlaps other panels, and a stray click has switched it to a different model.
-   5. Check the credit balance first and say what the round costs (in October 2026 an 8 s Veo clip cost 400 credits). Below `ads.video.min_credit_balance`, stop.
+   5. Check the credit balance first and say what the round costs (`ads.video.credits_per_clip` per clip). Below `ads.video.min_credit_balance`, stop.
    6. Download from the player's download icon (it often needs a second click), or `await __dlMedia('video', '<name>.mp4')`. Rename as in step 12.
 14. **Firefly Speech.** `__speechText(text)` (the box is contenteditable and ignores typed keys), then `await __speechLang('en-US')` (or another code from `video.tts.languages`). Pick the voice in `video.tts.voice`. Download with `await __dlMedia('audio', '<name>.wav')` or the player icon.
 15. **Report** in the house format: candidates made, model, credits spent.
@@ -68,7 +68,7 @@ Named files in the job folder on the user's machine and in the working area, plu
 - **The settings panel was missing.** Cause: the narrow pane switched Firefly to its compact layout. Fix: emulate 1440×900 (step 4).
 - **A fresh page stayed blank.** Cause: the browser pane was hidden. Fix: one screenshot to wake it, then wait for the model picker (step 5).
 - **A new reference replaced the first one.** Cause: writing to the first file input. Fix: always the last input (step 9.2).
-- **A 21 KB base64 image arrived corrupted.** Cause: passing image data through the agent's messages. Fix: in-page fetch of a public URL only (step 9.4).
+- **A base64 image arrived corrupted.** Cause: passing image data through the agent's messages. Fix: in-page fetch of a public URL only (step 9.4).
 - **References could not be loaded from the Mac or Drive.** Cause: the browser cannot read local disk, and Drive links are blocked by CORS inside Firefly (tested). Fix: public hosting (step 9.4).
 - **Downloads arrived as hidden temp files, and once stopped appearing at all.** Cause: scripted downloads behave differently with the pane hidden. Fix: rename by size; fall back to Firefly's own download button (step 12).
 - **The video model switched itself to another model.** Cause: a stray click in the overlapping model list. Fix: check the model before every generation (step 13.4).

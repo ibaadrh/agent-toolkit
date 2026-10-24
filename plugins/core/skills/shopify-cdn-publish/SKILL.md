@@ -8,7 +8,7 @@ description: Host a file at a public URL when the agent cannot put it on the web
 Many services only take files by public URL: Meta's ad image upload, a reference image slot in a browser-based image generator, a link in a message. The agent's working area often cannot serve files to the web, the browser page cannot read the local disk, and Drive links are blocked inside other sites. A Shopify store's Files section solves this: the staged upload works from the working area, and the result is a public CDN URL. The result of this skill is that URL.
 
 ## Config
-This skill needs: `meta.yaml` (keys: `shopify.store_domain`, `shopify.cdn_base`, `shopify.upload_approved`).
+This skill needs: `meta.yaml` (keys: `shopify.store_domain`, `shopify.cdn_base`, `shopify.upload_approved`, `shopify.file_naming`).
 Look in this order: see `core/client-config`. No store: stop, and say the file needs another public host. **Files uploaded here are public to anyone with the link.** Upload only what `shopify.upload_approved` allows. If it is empty, ask the owner before the first upload and record their answer there.
 
 Tools: read core/platform-adapters for this platform's tool names.
@@ -23,7 +23,7 @@ The file in the working area, its MIME type, and its size in bytes.
 
 ## Steps
 1. **Check the approval.** The file must be a kind the owner approved for public hosting (`shopify.upload_approved`). Never upload private material: invoices, personal photos, unreleased work outside the approved kinds.
-2. **Name it** so it is clear what it is and that it is internal: `<product>-<purpose>-<role>-<source>.<ext>`, for example a reference image `widget-ref-front-photo.jpg`. Give it alt text that says what it is and that it is internal, for example "Reference image (internal, ad generation): front view".
+2. **Name it** by `shopify.file_naming` (empty: ask). Whatever the pattern, the name and the alt text say what the file is and that it is for internal use, because anyone with the link can open it.
 3. **Ask for an upload slot** ("run a Shopify GraphQL mutation"):
    ```graphql
    mutation stageIt($input: [StagedUploadInput!]!) { stagedUploadsCreate(input: $input) { stagedTargets { url resourceUrl parameters { name value } } userErrors { field message } } }

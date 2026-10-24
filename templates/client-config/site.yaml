@@ -1,7 +1,8 @@
 site:
   platform: ""              # static / nextjs / wix-headless / shopify
   domain: ""
-  languages: [en]
+  languages: []
+  breakpoints: []           # widths in px the build is checked at, smallest first
   goals: []                 # sell / book / leads / inform
   analytics: { ga4_id: "", meta_pixel_id: "" }
   hosting: ""

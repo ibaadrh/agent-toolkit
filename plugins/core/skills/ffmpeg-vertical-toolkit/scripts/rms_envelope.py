@@ -41,7 +41,7 @@ def main():
         env = envelope(path, win)
         jumps = [(env[i][0], env[i][1] - env[i-1][1]) for i in range(1, len(env))]
         t, j = max(jumps, key=lambda x: x[1])
-        print(f"largest jump +{j:.1f} dB at {t:.2f}s; start the music about 3 s earlier ({max(0, t-3):.2f}s)")
+        print(f"largest jump +{j:.1f} dB at {t:.2f}s")
     else:
         sys.exit("mode must be words or drop")
 

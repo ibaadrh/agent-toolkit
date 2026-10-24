@@ -2,22 +2,27 @@ brand:
   name: ""                  # e.g. the product or company name as it appears in copy
   legal_name: ""
   website: ""
-  languages: [en]           # order = priority, e.g. [es, en]
+  languages: []             # order = priority, e.g. [es, en]
   colors:
-    primary: "#000000"
-    secondary: "#ffffff"
+    primary: ""
+    secondary: ""
     accent: ""
     background: ""
     text: ""
   fonts:
     primary: ""             # e.g. Inter
-    weights: [400, 700]
+    weights: []
   logo:
     full: ""                # path or URL; note if it must be cropped to alpha bounds first
     icon: ""
     rule: ""                # e.g. which text colour goes on the primary colour
   badges: []                # award or certification images with usage rules
-  audience: ""              # who appears in images and ads: ages, region, typical settings
+  audience: ""              # who appears in images and ads: ages, region, typical settings; empty = ask
+  image_style:              # the client's photo direction; empty = ask
+    style_block: ""         # opening style line for scene photos, e.g. a photography genre
+    people: ""              # how people appear: mood, pose, what they are doing
+    closing_line: ""        # closing qualifier for placeholder prompts someone else runs
+    reference_background: ""  # colour that transparent reference images are flattened onto
 owner:
   name: ""                  # the human who approves
   email: ""

@@ -10,7 +10,7 @@ The paid-ads loop is a chain: the strategist decides, a maker builds, the campai
 ## Config
 This skill needs:
 - `brand.yaml` (keys: `brand.languages`, `docs.live_state`, `docs.run_log`)
-- `ads.yaml` (keys: `ads.destination_url`, `ads.spend_cap_per_day_eur`, `ads.thresholds.min_impressions_per_cell`, `ads.thresholds.min_leader_link_clicks`, `angle_bank`)
+- `ads.yaml` (keys: `ads.destination_url`, `ads.spend_cap_per_day`, `ads.thresholds.min_impressions_per_cell`, `ads.thresholds.min_leader_link_clicks`, `angle_bank`)
 - `voice.yaml` (keys: `voice.approved_claims`, `voice.claim_rules`)
 
 Look in this order: see `core/client-config`. A missing key stops the check that needs it, and the report names it.
@@ -52,7 +52,7 @@ A field that does not apply says `none`. Never leave a line out.
 4. **Never change format and angle in the same brief.** If both move, nobody can tell which one moved the number.
 5. **utm_content is unique.** Check it against every slug in the live state's test history. A reused slug destroys attribution.
 6. **Destination** is `ads.destination_url`. A different destination is a stop-and-ask change for the owner, never a brief decision.
-7. **Budget** per cell, times the number of cells, stays inside `ads.spend_cap_per_day_eur`.
+7. **Budget** per cell, times the number of cells, stays inside `ads.spend_cap_per_day`.
 8. **Decision date** is when both cells should pass the readability gate (`min_impressions_per_cell` in each cell and `min_leader_link_clicks` for the leader) at the planned budget.
 9. **Copy** in Headline, Subhead and Primary text follows `voice.claim_rules` and uses only `voice.approved_claims`. All of it is in the brief's language.
 10. Write the brief and the decision into the live state document, and one line into the run log.

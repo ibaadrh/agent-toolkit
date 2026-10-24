@@ -14,13 +14,13 @@ Install `core` the same way first.
 
 | Skill | Use it when | Status |
 |---|---|---|
-| `paid-ads-strategist` | Start of every ads session: load state and 7-day data, apply readability gates, walk the decision ladder (continue / refine / new test / kill), write the `## BRIEF`. Has a dry-run mode | done |
+| `paid-ads-strategist` | Start of every ads session: load state and fresh data, apply the owner's readability gates, walk the decision ladder (continue / refine / new test / kill), write the `## BRIEF`. Has a dry-run mode | done |
 | `meta-campaigns-operator` | Build, test, scale, pause and diagnose on Meta: ABO per cell, launch sequence, thresholds, cheapest-first diagnosis, the authority envelope | migrate (raw skill in the private inbox) |
-| `static-ad-maker` | Brief → big-brand static: AI hero with exact product, four validated layout types, juror rubric, upload to CDN and Meta | migrate (raw skill and playbook in the private inbox) |
+| `static-ad-maker` | Brief → static ad: AI hero with exact product, the client's own layouts and rubric from their config, upload to CDN and Meta | migrate (raw skill and playbook in the private inbox) |
 | `ugc-video-ad-maker` (loop role) | Brief → UGC-style video; mechanics in video-production | migrate (raw skill in the private inbox) |
 | `competitor-ad-research` | Meta Ads Library sweep of competitors: formats, hooks, offers, longevity; clustered into a one-page read | write new (Meta MCP `ads_library_search` + the Composio extractor pattern) |
-| `social-content-research` | Weekly research → 5–8 dated post ideas with a rotation rule | migrate (raw skill in the private inbox) |
-| `b2b-social-copywriter` | Graphic text + LinkedIn caption + Instagram line in a fixed skeleton | migrate (raw skill in the private inbox) |
+| `social-content-research` | Research → dated post ideas, as many and as often as `content.yaml` sets | migrate (raw skill in the private inbox) |
+| `b2b-social-copywriter` | Post copy in the client's own post format, from their config | migrate (raw skill in the private inbox) |
 | `canva-post-builder` | New post page in a client's master Canva file from catalogued formats, with AI photo prompts | migrate (raw skill in the private inbox) |
 | `low-budget-launch-plan` | New product or client with a small budget: what to run first, how much, what to measure, when to stop | write new from your doctrine |
 | `newsletter-system` | Setting up and running a newsletter: list, cadence, template, send, measure (Mailchimp MCP) | write new |

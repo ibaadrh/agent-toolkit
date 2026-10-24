@@ -27,14 +27,14 @@ Tools: read core/platform-adapters for this platform's tool names.
 The council is for questions where being wrong is expensive.
 
 Good council questions:
-- "Should I launch a $97 workshop or a $497 course?"
+- "Should I launch a low-priced workshop or a premium course?"
 - "Which of these 3 positioning angles is strongest?"
 - "I'm thinking of pivoting from X to Y. Am I crazy?"
 - "Here's my landing page copy. What's weak?"
 - "Should I hire a VA or build an automation first?"
 
 Bad council questions:
-- "What's the capital of France?" (one right answer, no need for perspectives)
+- "What's the boiling point of water at sea level?" (one right answer, no need for perspectives)
 - "Write me a tweet" (creation task, not a decision)
 - "Summarize this article" (processing task, not judgment)
 

@@ -1,6 +1,6 @@
 # Document export: .docx edits and PDF export
 
-From a monthly invoice run that copies last month's .docx, changes two lines and exports a PDF. The steps apply to any Word template that gets reused.
+For any Word template that gets reused: copy last time's .docx, change only what must change, export a PDF.
 
 ## Edit only what must change
 - Copy the template to the new file name first. Never edit the template itself.

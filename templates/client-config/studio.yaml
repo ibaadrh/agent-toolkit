@@ -3,5 +3,6 @@ studio:
   media_volume: ""          # where client studios live (exFAT ok)
   caches_dir: ""
   template_dir: ""
-  clients:                  # name → studio path, finals path, reel-style file
+  folders: []               # the studio's folder layout, in order (e.g. intake, review, projects, final, brand kit)
+  clients:                  # name → studio path, finals path, the client's own style file (private)
     - { name: "", studio: "", finals: "", style: "" }

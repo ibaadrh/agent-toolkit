@@ -9,7 +9,7 @@ Getting an ad live on Meta has a fixed order, and most failures come from skippi
 
 ## Config
 This skill needs:
-- `meta.yaml` (keys: `meta.ad_account_id`, `meta.page_id`, `meta.instagram_account_id`, `meta.ai_disclosure`)
+- `meta.yaml` (keys: `meta.ad_account_id`, `meta.page_id`, `meta.instagram_account_id`, `meta.ai_disclosure`, `meta.visible_ai_line`)
 - `brand.yaml` (keys: `docs.live_state`)
 
 Look in this order: see `core/client-config`. No `meta.ad_account_id` or `meta.page_id`: stop, nothing can be published. `meta.ai_disclosure` defaults to `OPT_IN` for any creative made with AI. `meta.instagram_account_id` is needed only for Instagram placements; without it, publish to Facebook placements and say so.
@@ -44,7 +44,7 @@ The finished file per ratio, the brief (headline, primary text, destination, `ut
 ## AI disclosure
 - Content Credentials from the generator are stripped when the image is re-rendered (for example a layout rendered to PNG in a browser), so Meta will not label it on its own. Set the self-disclosure on the creative instead (step 6).
 - For AI video, turn on Meta's "AI info" label the same way.
-- Whether a visible "made with AI" line goes in the image itself is the client's choice. Default: no visible line; the platform disclosure does the job.
+- Whether a visible "made with AI" line goes in the image itself is the client's choice (`meta.visible_ai_line`). Empty: ask before the first upload.
 - An AI person in an ad is never framed as a customer giving a testimonial.
 
 ## Output
@@ -59,7 +59,7 @@ A live ad with its creative ID, ad ID, image hash and effective status, written 
 - **An Instagram feed placement did not deliver.** Cause: the position was set as `feed`; Instagram's main feed is `stream`. The API accepts `feed` and then does not deliver there. Fix: use `stream` when setting placements on the ad set.
 
 ## Video upload
-- In the one documented run, the owner uploaded the video to the ad account's media library by hand, and the creative was built from the video ID that gave. The agent could not do it: the Drive connector cannot pull files over 10 MB into the working area, and the ad platform's local-file picker did not open in the agent's client.
+- No agent-driven video upload has been tested. The Drive connector cannot pull large files into the working area, and the ad platform's local-file picker is a native dialog the agent cannot operate.
 - Until an agent-driven route is tested: deliver the video to the owner (`core/file-delivery`), ask them to upload it, and continue from step 5 with the video ID. Record a working route here when one is found.
 
 ## References

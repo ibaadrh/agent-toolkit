@@ -1,6 +1,6 @@
 canva:
   shortlink: ""             # resolve fresh every run; never hard-code the design ID
-  canvas: 1080x1350
+  canvas: ""                # canvas size in px, e.g. WIDTHxHEIGHT
   reference_page_count: 0   # first N pages are reusable formats
   assets: { master_logo: "", icon_logo: "" }
   logo:
@@ -9,4 +9,4 @@ canva:
     lockup_position: ""
   fonts: { title: "", title_pt: 0, body: "", body_pt: 0 }   # API px = pt × 1.333
   colors: { primary: "", dark: "", placeholder: "" }
-  formats: []               # A–F catalogue: name, background, gradient, text alignment, logo position
+  formats: []               # catalogue of the client's post formats: name, background, gradient, text alignment, logo position

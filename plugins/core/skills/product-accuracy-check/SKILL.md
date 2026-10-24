@@ -9,7 +9,7 @@ Image models redraw the product every time; they never copy its pixels. A result
 
 ## Config
 This skill needs: `product-spec.md` (all fields: dimensions, silhouette ratio and its tolerance, corner radius, finish and colour, logo, buttons, ports, lights and their default state, cables and which end is which, the fail list, reference images, render index), `references.yaml` (keys: `reference_pack`, `banned_assets`), `brand.yaml` (keys: `docs.playbook`).
-Look in this order: see `core/client-config`. **No `product-spec.md`: stop.** Without measured facts the check is guessing. Ask for the spec, or offer to build it from the CAD file and the real photos. Silhouette tolerance defaults to ±10% of the spec ratio.
+Look in this order: see `core/client-config`. **No `product-spec.md`: stop.** Without measured facts the check is guessing. Ask for the spec, or offer to build it from the CAD file and the real photos. The silhouette tolerance, the cable-length band and the paste-back limits come from the spec; if one is empty, ask the owner for it.
 
 Tools: read core/platform-adapters for this platform's tool names.
 
@@ -28,7 +28,7 @@ Each candidate image at full size, the real reference photos, and, if they exist
 2. **Measure the silhouette, do not eyeball it.**
    1. Measure the product's long and short side in pixels along its top face.
    2. Correct for foreshortening: a side running away from the camera looks shorter by about the sine of the camera's elevation. So true ratio ≈ long ÷ (short ÷ sin(elevation)) when the short side runs away from the camera, and the other way round when the long side does.
-   3. Near top-down, the corrected ratio must be within the spec's tolerance (default ±10%; for a 4:1 product, 3.6 to 4.4). At low angles, compare against the closest render instead of the number.
+   3. Near top-down, the corrected ratio must be within the spec's tolerance. At low angles, compare against the closest render instead of the number.
    4. Check thickness against the spec, and the shape seen from above (corners, ends).
    5. Fail anything on the spec's fail list (for example: rounder, flatter, longer, thinner or boxier than the real shape).
 3. **Check every feature against the spec.**
@@ -57,15 +57,15 @@ Each candidate image at full size, the real reference photos, and, if they exist
    |---|---|---|---|---|---|
 
 10. **If nothing passes, climb the ladder** (stop at the first that passes):
-    1. **Paste-back** (when reference renders exist and only the product failed; scene, person and cables passed): take the render whose elevation and azimuth are closest to the generated product, rotate and scale it in-plane to the generated product's footprint, and composite it with its shadow so it covers the whole generated product. Re-run steps 2 to 7. Reject if the angle visibly differs (more than about 15° in elevation or azimuth) or the cables no longer meet the plugs.
+    1. **Paste-back** (when reference renders exist and only the product failed; scene, person and cables passed): take the render whose elevation and azimuth are closest to the generated product, rotate and scale it in-plane to the generated product's footprint, and composite it with its shadow so it covers the whole generated product. Re-run steps 2 to 7. Reject if the angle differs by more than the spec's paste-back limit, or visibly when it has none, or if the cables no longer meet the plugs.
     2. **Regenerate** with a prompt that names the failure.
     3. **An edit-image pass** with the same references (fix prompt in `core/ai-image-prompting`).
     4. **A real photo**, or a render plate.
 
 ## Choosing the method up front (strictest first)
 1. **Paste-back** is the default for heroes once reference renders exist.
-2. **Plate-first** for macro and flat-lay layouts: start from a render plate (beauty, product layer, mask, camera), generate only the surroundings, then lay the product layer back at identical pixel coordinates. Reject if the generator moved the table or the framing (mask edge offset over 4 px).
-3. **References only** while there are no renders, or when the product is under 15% of the frame width. It still passes the measured check.
+2. **Plate-first** for macro and flat-lay layouts: start from a render plate (beauty, product layer, mask, camera), generate only the surroundings, then lay the product layer back at identical pixel coordinates. Reject if the generator moved the table or the framing (a mask edge offset beyond the spec's limit, or any visible offset when it has none).
+3. **References only** while there are no renders, or when the product is smaller in the frame than the spec's paste-back limit. It still passes the measured check.
 
 ## Renders get checked too
 A render of the real CAD is not automatically right. Check every render against the real photos before first use, exactly like an AI candidate. Never model the product from scratch or with an AI 3D tool; use only CAD-derived models. Old marketing renders are not a source for details.
@@ -78,7 +78,7 @@ A verdict per candidate in the log, the passed candidates (with any retouch note
 - **Rounded, squat and boxy shapes; a detailed logo in a badge.** Cause: loose shape words and whole lifestyle photos as references. Fix: measured shape words in the prompt and the fail list here.
 - **The cable was judged against the wrong facts for weeks.** The written spec described a different finish and listed the real finish as a failure. Fix: check the spec itself against calipers and the real product, not older notes.
 - **Loose plug ends, extra cables running nowhere, a cable entering the long side.** Fix: step 5, and spell out the chain in the prompt.
-- **Cable lengths far off: 0.3× and 3× the right length.** Fix: the length band in step 5.1.
+- **Cable lengths far off, both much too short and much too long.** Fix: the length band in step 5.1.
 - **The button and the logo at the same end; the cable in the wrong end.** Fix: step 4 on every candidate.
 - **A product far too wide for its length.** Fix: step 2.
 - **A real third-party logo on headphones; controllers that read as a famous console's.** Fix: the look-alike gate (step 7.4) and generic device names in the prompt.

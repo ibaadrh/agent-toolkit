@@ -65,8 +65,10 @@ window.__pick = async (picker, item) => {
 window.__cost = () => deep(document, window.__SELECTORS.image.cost)[0]?.getAttribute('aria-label');
 
 // ---- reference images (they enter only by in-page fetch of a public URL) ----
-// Crop a public image to [x, y, w, h] (fractions of the image) on a light grey background. [0,0,1,1] = whole image.
-window.__crop = async (url, [x, y, w, h], bg = '#EDEDED') => {
+// Crop a public image to [x, y, w, h] (fractions of the image) onto the background colour bg. [0,0,1,1] = whole image.
+// bg is the client's brand.image_style.reference_background; there is no default.
+window.__crop = async (url, [x, y, w, h], bg) => {
+  if (!bg) throw new Error('pass the background colour (brand.image_style.reference_background)');
   const im = new Image(); im.crossOrigin = 'anonymous'; im.src = url; await im.decode();
   const W = im.naturalWidth, H = im.naturalHeight, c = document.createElement('canvas');
   c.width = Math.round(w * W); c.height = Math.round(h * H);
@@ -101,7 +103,9 @@ window.__seedKnown = async () => {
 };
 // One generation per call: the browser script call gives up after about 45 s.
 // For longer waits start it in the background (window.__bg = __genOne()) and check __gen.length in later calls.
-window.__genOne = async (minWidth = 1856, minBytes = 1e6, ms = 100000) => {
+// minWidth: the full-size output width for the chosen ratio and resolution; smaller images (thumbnails) are skipped.
+window.__genOne = async (minWidth, minBytes = 0, ms = 100000) => {
+  if (!minWidth) throw new Error('pass the expected output width in px');
   deep(document, window.__SELECTORS.image.generate)[0].click(); const t0 = Date.now();
   while (Date.now() - t0 < ms) {
     await wait(4000);

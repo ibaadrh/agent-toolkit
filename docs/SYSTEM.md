@@ -125,7 +125,7 @@ The table shows: skills you already have that move in (after decoupling), third-
 | Yours (decoupled) | Adopt from the community | Write new |
 |---|---|---|
 | `video-studio-router` (studio layout, two-volume rule, new-client onboarding) | `ahujasid/blender-mcp` (28.7k) | `firefly-web-driver` (your shadow-DOM helpers for firefly.adobe.com, Veo 3.1, Nano Banana Pro, Firefly Speech; nothing public does consumer Firefly) |
-| `kdenlive-reel-editor` (from the raw reel-editing skill: edit_plan.json → prep_clips.py → build_kdenlive.py → melt render) | `remotion-dev/skills` (official) | `kdenlive-project-builder` reference + scripts (no public Kdenlive automation exists; yours is the only one) |
+| The neutral Kdenlive mechanics of the raw reel-editing skill (edit plan → `.kdenlive` project → preview render); the reel style itself stays private | `remotion-dev/skills` (official) | `kdenlive-project-builder`: any edit plan → editable project, preview, opens-in-Kdenlive check, no style (no public Kdenlive automation exists) |
 | `ugc-video-ad-maker` mechanics (presenter clip, first-frame pixel patch, ffmpeg edit, ASS captions) | `digitalsamba/claude-code-video-toolkit` (ffmpeg, ElevenLabs, Playwright recording) | `blender-reference-render-pack` (STEP → GLB → master.blend → ortho and accessory renders + index.csv) |
 | | `ychoi-kr/claude-ffmpeg-skill` (tested recipes) | `ffmpeg-vertical-toolkit` (your 9:16 crop/blur, loudnorm chain, contact sheets, spike scan) |
 | | `runwayml/skills` only if you pay for Runway | |
@@ -172,7 +172,7 @@ Avoid `flowful-ai/cad-skill`: non-commercial licence, which matters for a studio
 |---|---|---|
 | `paid-ads-strategist` (decision ladder, readability gates, brief contract) | `coreyhaines31/marketingskills` (50 skills: copywriting, cro, launch, emails, competitor profiling) | `competitor-ad-research` (Meta Ads Library via the Meta MCP you already have, plus the Composio `competitive-ads-extractor` pattern) |
 | `meta-campaigns-operator` (ABO-per-cell rule, launch sequence, scale/kill thresholds, diagnosis) | `AgriciDaniel/claude-ads` (Google + Meta ops with gated changes) | `low-budget-launch-plan` (your small-daily-budget doctrine turned into a playbook) |
-| `static-ad-maker` (Firefly hero, product check, Claude Design layouts A–D, juror rubric, CDN → Meta hash) | `realkimbarrett/advertising-skills` (direct-response copy system) | `newsletter-system` (Mailchimp MCP is connected; marketingskills `emails` covers the rest; no Beehiiv/Substack MCP exists) |
+| `static-ad-maker` (Firefly hero, product check, the client's layouts and rubric from config, CDN → Meta hash) | `realkimbarrett/advertising-skills` (direct-response copy system) | `newsletter-system` (Mailchimp MCP is connected; marketingskills `emails` covers the rest; no Beehiiv/Substack MCP exists) |
 | `ugc-video-ad-maker` (loop role; mechanics live in video-production) | `googleanalytics/google-analytics-mcp` (official GA4) | `free-tools-stack` (researched list of free tools per job, kept current) |
 | `social-content-research`, `b2b-social-copywriter`, `canva-post-builder` (the B2B social pipeline) | `ConechoAI/Nano-Banana-MCP` (cheapest static-ad iteration) | |
 | | Meta Ads MCP (already connected) | |
@@ -185,7 +185,7 @@ From the audit, these repeat across your skills and become single modules:
 |---|---|
 | `house-report` (one sentence, 2–3 metrics, numbered points or "Nothing needed from your side.") | everything |
 | `brief-contract` (the `## BRIEF` block schema) | strategist, both ad makers, campaigns |
-| `ai-image-prompting` (reserve text zones, name generic devices, one light one lens, the ban list, the closing qualifier) | static ads, Canva, any image gen |
+| `ai-image-prompting` (reserve text zones, name generic devices, one light one lens, the ban list; style from config) | static ads, Canva, any image gen |
 | `firefly-web-driver` | static ads, video ads |
 | `product-accuracy-check` | static ads, 3D renders |
 | `ffmpeg-vertical-toolkit` | video ads, reels |
@@ -194,8 +194,8 @@ From the audit, these repeat across your skills and become single modules:
 | `shell-safety-guard` (zsh traps, portable script plus hook) | every skill that runs shell commands |
 | `resume-session`, `wrap-up-session`, `park-a-note` (session notes) | every project |
 | `meta-creative-publish` + `shopify-cdn-publish` | static ads, video ads, campaigns |
-| `readable-test-doctrine` (300 impressions / 25 clicks gates, ABO never CBO, 40/60 check, rule of three) | strategist, campaigns |
-| `claims-and-voice-rules` (no em dashes, approved-claims list pattern) | all copy |
+| `readable-test-doctrine` (readability gates set per client, ABO never CBO, spend-share check, rule of three) | strategist, campaigns |
+| `claims-and-voice-rules` (truthfulness rules, approved-claims list, the client's voice file) | all copy |
 | `browser-automation-hygiene` (wake a hidden page, stale screenshots, no native dialogs) | Firefly, cloners |
 | `llm-council` | any decision |
 | `client-config` (the loader convention from section 4) | every skill |
@@ -232,7 +232,7 @@ Each step is one Claude Code session. The prompts in `prompts/` are written to b
 | 0 | Create both private repos on GitHub. Push this scaffold. Run `scripts/install.sh` once so Claude Code sees the (still empty) marketplace. | `prompts/00-setup.md` |
 | 1 | Collect everything. Your Claude Code project skills and CLAUDE.md files from every repo (one `find` command, in the prompt). Export the playbook and strategy docs from your Claude Projects, because the real prompt libraries live there, not in the skills. Drop all of it in the private inbox: `../agent-clients/_inbox/`, or the company config repo's `_inbox/` for company material. | `prompts/01-collect.md` |
 | 2 | Build `core` first. Pull the 13 shared modules out of the raw skills. Each becomes a skill or a `references/*.md` file in `plugins/core`. | `prompts/02-build-core.md` |
-| 3 | Decouple one skill at a time with the checklist. Generic skill into its toolkit, client values into `agent-clients/clients/<name>/`. Start with the ads loop (highest value, most tangled). Then the B2B social pipeline. Then the reel editor and the video studio router. | `prompts/03-decouple-skill.md` |
+| 3 | Decouple one skill at a time with the checklist. Generic skill into its toolkit, client values into `agent-clients/clients/<name>/`. Start with the ads loop (highest value, most tangled). Then the B2B social pipeline. Then the video studio router, and the neutral Kdenlive mechanics (the reel editor itself stays client-specific). | `prompts/03-decouple-skill.md` |
 | 4 | Adopt third-party tools. Add each to `marketplace.json` or the toolkit README with the exact install line. Don't fork; pin. | `prompts/04-adopt-third-party.md` |
 | 5 | Write the five `WORKFLOW.md` files: the start-to-finish way of working in each domain, naming which skill does which step. This is the "super clear tutorial" layer. | `prompts/05-write-workflow.md` |
 | 6 | Fill the gaps. Write the new skills listed in section 5 (firefly-web-driver, functional-first-design, app-feature-extraction, and so on). One per session. Use skill-creator and test on a real job before merging. | `prompts/06-new-skill.md` |
@@ -252,4 +252,4 @@ Steps 0 to 3 give you a working system. Steps 4 to 7 make it complete. Expect ro
 - A new laptop is productive in five minutes: clone nothing, run two commands.
 - You start a new product: one config folder, and every toolkit works for it.
 - Your GitHub profile shows one pinned repo with five clear projects inside, each readable by a stranger.
-- The client-named skills no longer exist by those names. `static-ad-maker`, `canva-post-builder` and `kdenlive-reel-editor` do, and they run for anyone.
+- The client-named skills no longer exist by those names. `static-ad-maker`, `canva-post-builder` and `kdenlive-project-builder` do, and they run for anyone. A client's own style (a house video style, a post format, ad layouts) never becomes a toolkit skill; it stays private as that client's settings or skill.

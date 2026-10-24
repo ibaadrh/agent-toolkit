@@ -67,12 +67,13 @@ rm ~/Library/LaunchAgents/com.agent-toolkit.harvest.plist
 - Claude app: re-run the package script and re-upload the changed zips.
 
 ## Push guard
-`./scripts/install.sh` turns on a pre-push hook in this checkout (`git config core.hooksPath scripts/hooks`). Before every push it runs `scripts/validate.sh` on the working tree and `scripts/scan-history.sh` on the commits being pushed: every file version (text and binary), commit message and author, against `scripts/forbidden-terms.txt` and every sibling repo's `forbidden-terms.txt`. If either finds something, the push is blocked and the hit is printed.
+`./scripts/install.sh` turns on a pre-push hook in this checkout (`git config core.hooksPath scripts/hooks`). Before every push it runs `scripts/validate.sh` on the working tree and `scripts/scan-history.sh` on the commits being pushed: every file version (text and binary), commit message and author, against `scripts/forbidden-terms.txt` and every sibling repo's `forbidden-terms.txt`. It also runs `scripts/check-allowlists.py` on the pushed files (any name not in `scripts/allowed-names.txt`, any domain not in `scripts/allowed-domains.txt`, any email, phone number, price, measurement, long ID or date in a skill that is not a listed generic example line), and `scripts/fresh-eyes-review.sh`: a separate agent that has not seen your session reads only the diff and says whether anything could identify a client or borrows a client's style. If any of them finds something, the push is blocked and the hit is printed. These checks do not need to know a client's name, so they protect quick one-off clients too. GitHub Actions runs `validate.sh` on every push to main as well.
 - Turn it on without running the whole install: `git config core.hooksPath scripts/hooks`.
 - Scan the whole history by hand, for example before making the repo public: `./scripts/scan-history.sh`.
 - A hit in a commit that is not pushed yet: fix the file and amend or rebase so the term is gone from every commit, not only from the latest one.
 - A new client or company name: add it to that private repo's `forbidden-terms.txt`, never to this repo.
-- `git push --no-verify` skips the guard. Don't use it on this repo.
+- `git push --no-verify` skips the guard. Never use it on this repo, and never loosen the guard or its lists to get a push through: fix the content.
+- The fresh-eyes review needs the `claude` CLI signed in on this machine. Without it, the push is blocked.
 
 ## Giving someone else access
 - Toolkit only: add them as a read collaborator on `agent-toolkit`. They run the install lines above.

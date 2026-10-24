@@ -12,6 +12,19 @@ How to work with an agent on this repo, or any project (briefing, planning, stop
 - Plain English. Short sentences. No em dashes. Describe steps a stranger can follow.
 - Third-party skills are referenced with an install line in `docs/THIRD-PARTY.md` (and pinned in the marketplace when they are plugins), never copied into this repo.
 - Commits: `git config user.email 88559161+ibaadrh@users.noreply.github.com`. Never add Co-Authored-By trailers or tool attribution. Messages describe the change.
+
+## General use only: no client style
+- agent-toolkit contains only general-use skills. Some skills are client-specific on purpose (a client's house video style, their post format, their ad layouts). Those stay private in `agent-clients` or the company config repo and are never generalised into the toolkit.
+- When migrating any skill, sort every rule into (a) a neutral mechanic that works for any client, or (b) a client's style, preference, format, number or example. Only (a) goes into the toolkit. Everything in (b) stays private, as that client's settings or their own skill. If unsure, treat it as (b) and list it for the owner.
+- General skills have no style defaults borrowed from a client: no speeds, grades, music timing, fade lengths, caption looks, video lengths, layouts, fonts, colours, word counts, formats or thresholds. A config key for one has no value in `templates/client-config/`. An empty key means ask, never a client's value.
+- Every migration report includes a "kept private" list: what was left out of the toolkit, where it went, and why.
+
+## Protecting clients without knowing their names
+- A lesson from client work goes in as a generic rule. Never include the client's names, products, numbers, dates, examples or incident stories.
+- Toolkit changes only happen in sessions opened in agent-toolkit. A client-work session never edits this repo; it may suggest a generic change for the owner to apply here.
+- Only one session works in agent-toolkit at a time.
+- Never use `--no-verify`, and never weaken the guard, its scripts or its lists to get a push through. If the guard blocks, fix the content. Add to `scripts/allowed-names.txt`, `scripts/allowed-domains.txt` or the generic-example lines in `scripts/allowed-terms.txt` only for public tools, platforms, formats and plain generic examples, and list every addition in the report.
+- The guard: `scripts/validate.sh` (forbidden terms, plus `scripts/check-allowlists.py`: unknown names, domains, emails, phone numbers, prices, measurements, long IDs and dates), `scripts/scan-history.sh` on every pushed commit, and a fresh-eyes review of the diff by a separate agent (`scripts/fresh-eyes-review.sh`) before any push that touches skills or docs. GitHub Actions runs `validate.sh` on every push to main.
 - Run `scripts/validate.sh` before committing.
 
 ## Layout
@@ -25,6 +38,7 @@ How to work with an agent on this repo, or any project (briefing, planning, stop
 - If the inbox sources contradict each other (a raw export, a newer synced copy, a playbook, a CLAUDE.md), use the newest dated version. The date is the one in `INBOX.md`, in the file itself, or of the commit that added it.
 - Don't stop to ask about each conflict. Decide, and keep going.
 - List every choice in the report: what conflicted, which version you used and its date, and what you left out. The owner corrects it from that list later.
+- End the report with the "kept private" list (see "General use only").
 
 ## When asked to "update the toolkit" with a learning
 1. Find the one skill or core reference that owns that mechanic.

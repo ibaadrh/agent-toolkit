@@ -11,8 +11,7 @@ In the Claude app, add each file to the Project as a doc named `toolkit/<file>`.
 | `meta.yaml` | meta-campaigns-operator, static-ad-maker, ugc-video-ad-maker |
 | `product-spec.md` | static-ad-maker, product-accuracy-check, cad-reference-renders |
 | `references.yaml` | static-ad-maker (reference image pack, hero bank) |
-| `video.yaml` | ugc-video-ad-maker |
-| `reel-style.yaml` | kdenlive-reel-editor |
+| `video.yaml` | ugc-video-ad-maker, ffmpeg-vertical-toolkit, kdenlive-project-builder |
 | `content.yaml` | social-content-research, b2b-social-copywriter |
 | `canva.yaml` | canva-post-builder |
 | `site.yaml` | website-development |
@@ -21,3 +20,5 @@ In the Claude app, add each file to the Project as a doc named `toolkit/<file>`.
 | `studio.yaml` | video-studio-router (one per machine, not per client) |
 
 Keys are fixed. Skills read them by name. Add keys, never rename them.
+
+Templates carry no client values and no style defaults: no colours, fonts, sizes, lengths, timings, formats or thresholds. An empty key means the skill asks the owner. A client's own look and numbers live only in that client's copy in the private config repo.

@@ -1,6 +1,6 @@
 ---
 name: ai-image-prompting
-description: Rules for writing prompts for AI image and video generators (Firefly, Nano Banana Pro, Veo and similar) so the result looks like real photography and any real product in it stays exact. Covers composition zones, the fixed product block, naming generic devices, people, light and lens, the ban list, reference images, logos, the closing qualifier for stock-style photos, presenter video prompts and fix prompts. Use it before writing any image or video generation prompt, for an ad hero, a social post photo, a placeholder prompt for someone else to run, or a first-frame presenter clip.
+description: Rules for writing prompts for AI image and video generators (Firefly, Nano Banana Pro, Veo and similar) so the result looks like real photography and any real product in it stays exact. Covers composition zones, the fixed product block, naming generic devices, people, light and lens, the ban list, reference images, logos, the closing line for placeholder prompts, presenter video prompts and fix prompts. Style always comes from the client's config. Use it before writing any image or video generation prompt, for an ad hero, a social post photo, a placeholder prompt for someone else to run, or a first-frame presenter clip.
 ---
 
 # AI image prompting
@@ -11,9 +11,9 @@ A generator only knows what the prompt and the reference images tell it. Vague w
 This skill needs:
 - `product-spec.md` for a product hero (keys: dimensions, silhouette ratio, corner radius, finish and colour, logo, buttons and ports and lights with their default state, cables and which end is which, the fail list, shape words that are wrong, the prompt product block)
 - `references.yaml` (keys: `reference_pack`, `banned_assets`)
-- `brand.yaml` (keys: `brand.name`, `brand.audience`, `brand.logo.full`, `docs.playbook`)
+- `brand.yaml` (keys: `brand.name`, `brand.audience`, `brand.image_style.style_block`, `brand.image_style.people`, `brand.image_style.closing_line`, `brand.image_style.reference_background`, `brand.logo.full`, `docs.playbook`)
 
-Look in this order: see `core/client-config`. A product hero with no `product-spec.md`: stop and ask for it; never describe a real product from memory or from a photo alone. A scene photo with no product needs only `brand.name`. If `brand.audience` is empty, ask who should appear; until then use people aged 25 to 65.
+Look in this order: see `core/client-config`. A product hero with no `product-spec.md`: stop and ask for it; never describe a real product from memory or from a photo alone. A scene photo with no product needs `brand.name` and the client's `brand.image_style`. If `brand.audience` or a `brand.image_style` key the job needs is empty, ask; never fill it from another client or from an example here.
 
 Tools: read core/platform-adapters for this platform's tool names.
 
@@ -24,12 +24,12 @@ Tools: read core/platform-adapters for this platform's tool names.
 - `core/firefly-web-driver` for the mechanics of running prompts in Firefly
 
 ## Inputs
-- The job: a **product hero** (a real product must look exact), a **scene photo** (stock-style editorial image, no exact product), or a **presenter video** (a short clip from a first frame).
+- The job: a **product hero** (a real product must look exact), a **scene photo** (an image in the client's style, no exact product), or a **presenter video** (a short clip from a first frame).
 - The layout the image goes into, with its text zones.
 - For ads: the `## BRIEF` block (`core/brief-contract`). Angle and Hypothesis set the scene. Language sets nothing in the image, because the image has no text.
 
 ## Steps
-1. **Plan the composition first.** Pick the layout before writing a word of the prompt. Name, in the prompt, every zone the layout needs: where the headline sits ("the top third an empty, softly out-of-focus pale wall"), where a callout goes, where the product sits, where the person's head is ("head at mid-height"). A composition cannot be fixed by cropping later; crops cut heads.
+1. **Plan the composition first.** Pick the layout before writing a word of the prompt. Name, in the prompt, every zone the layout needs: where the headline sits (as an empty area of the scene), where a callout goes, where the product sits, where any person's head is. A composition cannot be fixed by cropping later; crops cut heads.
 2. **Build the prompt in this order:** product block → "No text." → scene → people → light and lens. Templates are in `references/prompt-templates.md`.
 3. **Product block (product hero only).**
    1. Write it once per product from `product-spec.md`, then keep it word for word in every prompt. Store it in `product-spec.md` with a version and a date. Change it only when a test shows a wording failed, and log why.
@@ -41,24 +41,24 @@ Tools: read core/platform-adapters for this platform's tool names.
    7. If the product connects to things, spell the whole chain out, end by end: what plugs into which end, and where each cable goes ("its cable plugs into the device's port and into the product; a round white charger cable leaves the product's other end out of frame").
    8. Close the block with "Real cables only: true thickness, plugs fully seated, natural slack." when cables appear.
 4. **Scene.**
-   1. Make the product large (at least 10% of the frame), sharp, and lying the way the spec says (for example flat, logo up).
-   2. Put the devices in the sharp foreground and the person behind, softly out of focus. This makes the product large almost every time and keeps faces natural.
-   3. **Name every other device generically**, with material, colour and shape: "a matte grey rounded earbuds case", "a plain white game controller with grey buttons". An unnamed device comes out as a famous brand's look-alike.
+   1. Make the product as large as the layout needs, sharp, and lying the way the spec says (for example flat, logo up).
+   2. When the product must read large and a person is in the shot, put the devices in the sharp foreground and the person behind, out of focus. A product the model has to fit around a face comes out small.
+   3. **Name every other device generically**, with material, colour and shape: "a matte grey rounded case", "a plain white remote with grey buttons". An unnamed device comes out as a famous brand's look-alike.
    4. Make the scene specific to the topic (the exact industry, task and equipment), never a generic stock scene.
-5. **People.** Candid or editorial wording. Mid-moment: laughing, absorbed, looking off-camera. Ages from `brand.audience` (default 25 to 65). "Natural skin". Never posing at the camera with the product, and never framed as a customer giving a testimonial.
-6. **Light and lens.** One light source and one lens, named: "warm lamp light", "soft morning window light", "50mm f/2.2".
+5. **People.** Who appears comes from `brand.audience`; mood, pose and what they are doing from `brand.image_style.people`. Describe an action, not a look. Add "natural skin". Never frame a person as a customer giving a testimonial.
+6. **Light and lens.** One light source and one lens, each named. Which ones is the client's style (`brand.image_style`) or the layout's choice.
 7. **Ban list.** Never write: 8K, hyper-realistic, ultra-detailed, flawless, pores, skin texture. Never ask for text in the image ("No text." is always in the prompt). Never ask for a light or display to be on unless that is the point of the image.
 8. **Reference images.**
    1. Use tight crops of real photos, from every side: front, side, back with any button, the cable or accessory, the product in use or connected, and one for scale. Whole lifestyle photos as references produce the wrong shape.
    2. Never use a reference that shows a wrong state (a lit light, an old claim, a prototype) or anything in `banned_assets`.
    3. Never add a photo of a person unless that person should appear.
-   4. Flatten transparent references onto light grey (#EDEDED), as JPEG, at most 2400 px on the long side.
+   4. Flatten transparent references onto `brand.image_style.reference_background` (ask if empty), as JPEG, within the generator's upload limits.
    5. References must be at a public URL the generator's page can fetch. Never pass image bytes or base64 through your own messages; they arrive corrupted.
 9. **Logos in scene photos.** Supply the real logo as a reference image and instruct: "Naturally integrate the provided <brand.name> logo reference image into the scene, on <a uniform, a case, a vehicle>, rendered accurately and consistently with the reference image, not redrawn or restyled." Never describe the logo's colours or shape. Leave this out of a studio shot with no surface to put it on.
-10. **Scene photos for someone else to generate** (for example, a placeholder in a social post): one prompt per photo slot, labelled ("AI image prompt, main background photo:"). Use the style block, then close every prompt with exactly: "No other text, no additional logos, no watermarks, photorealistic, not illustrated." Never mention aspect ratio, dimensions or orientation; the person running it sets those in the tool. Name the open space the layout needs.
+10. **Scene photos for someone else to generate** (for example, a placeholder in a social post): one prompt per photo slot, labelled ("AI image prompt, main background photo:"). Open with `brand.image_style.style_block` and close with `brand.image_style.closing_line`; whatever the client's style, the closing line keeps "No other text, no additional logos, no watermarks." Never mention aspect ratio, dimensions or orientation; the person running it sets those in the tool. Name the open space the layout needs.
 11. **Presenter video.** Keep the prompt plain; template in `references/prompt-templates.md`. Start from a first frame that already looks natural. Never re-edit a face with an AI image model; it makes skin over-detailed and fake. Fix small product details in the first frame by patching pixels, not by regenerating. One clip per language and per voice: separate generations give the same person a different voice.
 12. **Check the length** against the tool's limit before running (table below).
-13. **Generate many, reject most.** Make at least 6 to 8 candidates per hero. Expect most to fail: in real runs only about one candidate in seven passed. Any doubt is a no; "close enough" never ships. Collect every result as soon as it appears, and judge candidates at full size, not in a small browser preview.
+13. **Generate many, reject most.** Make several candidates per hero and expect most to fail. Any doubt is a no; "close enough" never ships. Collect every result as soon as it appears, and judge candidates at full size, not in a small browser preview.
 14. **Fix prompts.** When one candidate is right except for one thing, use the fix prompts in `references/prompt-templates.md` with the same references. When the product itself is wrong and a render of the real product exists, a paste-back of the render beats a fix prompt.
 15. **Log.** In `docs.playbook`, record the prompt version, the references used, and every candidate's verdict with its reason.
 

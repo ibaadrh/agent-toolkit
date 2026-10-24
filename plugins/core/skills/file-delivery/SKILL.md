@@ -22,7 +22,7 @@ Tools: read core/platform-adapters for this platform's tool names.
 The finished files, the folder they belong in, and the calling skill's naming pattern.
 
 ## Steps
-1. **Name every file** by the calling skill's pattern, with a version (`_v<N>`). With no pattern, use `<short-description>_<YYYY-MM-DD>_v<N>.<ext>`. Never overwrite a version the owner has already seen; bump the version instead. If the computed name already exists in the folder, stop and ask.
+1. **Name every file** by the client's pattern for that kind of file (for example `video.naming`), with a version. With no pattern, ask the owner for one. Never overwrite a version the owner has already seen; bump the version instead. If the computed name already exists in the folder, stop and ask.
 2. **Check the file before it leaves.** Run the calling skill's quality check. For documents exported to PDF, run the export check in `references/document-export.md`.
 3. **Deliver to the user** ("deliver the file to the user"). Some platforms first need the file in their outputs folder (see `core/platform-adapters`). On some platforms this step returns a file ID that the next step needs; keep it.
 4. **Write onto the user's machine or cloud folder** ("write file to device"), into `drive.outputs` under `drive.device_path_prefix`. Follow `drive.route` (see `core/client-config`). In a cloud or scheduled run with no machine linked, skip this step and say so.

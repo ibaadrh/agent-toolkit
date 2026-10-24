@@ -45,12 +45,12 @@ The exact command string about to be run.
 Exit 0 with nothing printed, or exit 1 with one line per problem: the rule, the word, and the fix. In hook mode a refusal is exit 2.
 
 ## Tests
-`python3 scripts/test_zsh_guard.py` runs 30 commands, 10 bad and 20 good, through the guard and through a real `zsh -f` in a throwaway folder, and checks the two agree. Last run 2026-10-16 with zsh 5.9: 30 of 30 passed.
+`python3 scripts/test_zsh_guard.py` runs 30 commands, 10 bad and 20 good, through the guard and through a real `zsh -f` in a throwaway folder, and checks the two agree. Last run with zsh 5.9: 30 of 30 passed.
 
 ## Known failures
-- **`grep -rn <word> ... --include=*.md` stopped with "no matches found: --include=*.md".** Hit on 2026-10-16 as `--include=*.md`, and again as `--include=*.py` while building this skill. It is the reason the skill exists. Fix: glob-in-option.
-- **`echo ======` stopped with "===== not found".** Hit on 2026-10-16 while printing a separator. Fix: equals-start; quote it or use `printf '%s\n' '======'`.
-- **A check loop ran nothing: every line reported "command not found".** Hit on 2026-10-16: the command was stored in a variable and run as `$G ...`, which zsh does not split. Not caught by the guard; see "What it does not check".
+- **`grep -rn <word> ... --include=*.md` stopped with "no matches found: --include=*.md".** Hit as `--include=*.md`, and again as `--include=*.py` while building this skill. It is the reason the skill exists. Fix: glob-in-option.
+- **`echo ======` stopped with "===== not found".** Hit while printing a separator. Fix: equals-start; quote it or use `printf '%s\n' '======'`.
+- **A check loop ran nothing: every line reported "command not found".** Hit when the command was stored in a variable and run as `$G ...`, which zsh does not split. Not caught by the guard; see "What it does not check".
 - **Risk: `find . -name *.md` returning one file instead of all of them**, with no error at all. Fix: pattern-arg.
 - **Risk: a URL with a query string stopping a `curl` or `open` call.** Fix: glob-in-url.
 

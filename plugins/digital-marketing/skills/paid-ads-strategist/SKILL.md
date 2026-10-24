@@ -12,7 +12,7 @@ The most important rule: **there is no content schedule.** You never ship a new 
 ## Config
 This skill needs:
 - `brand.yaml` (keys: `brand.name`, `brand.languages`, `owner.name`, `docs.live_state`, `docs.run_log`)
-- `ads.yaml` (keys: `ads.objective`, `ads.destination_url`, `ads.spend_cap_per_day_eur`, `ads.hard_stop_days`, `ads.thresholds.min_impressions_per_cell`, `ads.thresholds.min_leader_link_clicks`, `ads.thresholds.spend_share_band`, `ads.thresholds.decision_metric_order`, `ads.thresholds.decay_cpc_pct`, `ads.thresholds.decay_ctr_pct`, `ads.thresholds.max_frequency`, `ads.thresholds.overspend_pct`, `ads.thresholds.baseline_days`, `ads.thresholds.max_failed_refinements`, `ads.thresholds.data_window_days`, `ads.attribution.shopify_utm_field`, `ads.video.credits_per_clip`, `ads.video.min_credit_balance`, `angle_bank`)
+- `ads.yaml` (keys: `ads.objective`, `ads.destination_url`, `ads.currency`, `ads.spend_cap_per_day`, `ads.hard_stop_days`, `ads.thresholds.min_impressions_per_cell`, `ads.thresholds.min_leader_link_clicks`, `ads.thresholds.spend_share_band`, `ads.thresholds.decision_metric_order`, `ads.thresholds.decay_cpc_pct`, `ads.thresholds.decay_ctr_pct`, `ads.thresholds.max_frequency`, `ads.thresholds.overspend_pct`, `ads.thresholds.baseline_days`, `ads.thresholds.max_failed_refinements`, `ads.thresholds.data_window_days`, `ads.attribution.shopify_utm_field`, `ads.video.credits_per_clip`, `ads.video.min_credit_balance`, `angle_bank`)
 - `meta.yaml` (keys: `meta.ad_account_id`)
 - `voice.yaml` (keys: `voice.approved_claims`, `voice.claim_rules`), through `core/brief-contract`
 
@@ -22,7 +22,7 @@ Look in this order (full rules in `core/client-config`):
 3. Claude app: Project docs named `toolkit/brand.yaml`, `toolkit/ads.yaml`, `toolkit/meta.yaml`, `toolkit/voice.yaml`.
 4. Missing a file or a key: stop, say which one, ask for the value, offer to write the file. Never guess.
 
-Threshold keys come filled with defaults in the template. When a decision rests on one, say whether it is the client's value or the template default.
+Threshold keys have no defaults. A decision that needs an empty one stops: ask the owner for the value, or in a dry run list it as missing.
 
 Tools: read core/platform-adapters for this platform's tool names.
 
@@ -47,11 +47,11 @@ Tools: read core/platform-adapters for this platform's tool names.
 4. **Scope to this product.** One ad account can hold several products. Use only the campaigns the live state lists for this product. Without live state, use the campaigns whose ads link to `ads.destination_url` or whose names contain `brand.name`. Name every campaign you left out, with its spend, in the report.
 
 ### 2. Pull fresh data (all reads)
-Window: the last `data_window_days` (default 7) complete days.
+Window: the last `data_window_days` complete days.
 
 1. **Ads, per ad in scope** ("read campaigns, ad sets and ads" with metrics): spend, impressions, frequency, CTR, link clicks, cost per link click, landing page views, adds to cart, purchases (or leads), effective status, ad set, campaign.
 2. **The active test over its whole run**, not the 7-day window: the same metrics per cell from the day the test started (lifetime for those ads). A test that started before the window, or was paused inside it, is read on all its days.
-3. **The live winner's baseline:** the same metrics for the winner over the previous `baseline_days` (default 14), for rungs 4 and 5.
+3. **The live winner's baseline:** the same metrics for the winner over the previous `baseline_days`, for rungs 4 and 5.
 4. **Actual daily spend**, account level, one row per day. Configured budgets lie; delivery often runs over. If the account holds other products, also sum the in-scope campaigns per day.
 5. **Campaign settings** in scope: objective, campaign budget (set means CBO), ad set budgets, status.
 6. **Delivery errors** for the account ("read delivery errors").
@@ -66,7 +66,7 @@ Window: the last `data_window_days` (default 7) complete days.
            lastVisit  { source utmParameters { source medium campaign content } } } }
        pageInfo { hasNextPage endCursor } } }
    ```
-   with `q` = `created_at:>=<first day of the window>`. Attribute each order by `ads.attribution.shopify_utm_field` (default `lastVisit.utmParameters.content`). Leave out test orders and orders with a total of zero, and say how many you left out.
+   with `q` = `created_at:>=<first day of the window>`. Attribute each order by `ads.attribution.shopify_utm_field`. Leave out test orders and orders with a total of zero, and say how many you left out.
 
 ### 3. Can anything be read?
 Run the reading steps of `core/readable-test-doctrine`, in order:
@@ -80,24 +80,24 @@ Also flag, without treating it as a test: a split test built inside a CBO campai
 ### 4. The decision ladder
 Run in order. Stop at the first match. Record which rung fired.
 
-1. **Something is broken.** An ad disapproved, zero delivery on an active ad, a delivery error, or a day's spend above `overspend_pct` (150%) of the budget. → Hand to the campaign operator to diagnose. No brief.
+1. **Something is broken.** An ad disapproved, zero delivery on an active ad, a delivery error, or a day's spend above `overspend_pct` of the budget. → Hand to the campaign operator to diagnose. No brief.
 2. **A test is running and not yet readable** (step 3 fails). → **CONTINUE.** Report the numbers and the gap to readable. Build nothing.
 3. **A test is readable.** → Conclude it: the winner stays live, the loser is paused by the campaign operator. Write the result into the test history: hypothesis, numbers, verdict, confidence. "Inconclusive" is a valid result when the cells were not funded alike or the sample was thin. Then continue down the ladder to decide what comes next.
-4. **The live winner is still performing.** Cost per link click at or better than its own `baseline_days` baseline, frequency under `max_frequency` (3), CTR down less than `decay_ctr_pct` (30%). → **CONTINUE.** Say it plainly: "nothing needed, the current ad is still the best thing we have." Do not build a challenger to fill a slot.
-5. **The winner is decaying.** Cost per link click up `decay_cpc_pct` (30%) or more over the baseline, or frequency above `max_frequency`, or CTR down `decay_ctr_pct` or more. → **REFINE.** Same angle, same format, new execution. Write a brief.
-6. **The angle is exhausted.** `max_failed_refinements` (2) refinements of the same angle in a row failed to beat the baseline. → **NEW TEST.** Take the next hypothesis from the angle bank. Write a brief.
+4. **The live winner is still performing.** Cost per link click at or better than its own `baseline_days` baseline, frequency under `max_frequency`, CTR down less than `decay_ctr_pct`. → **CONTINUE.** Say it plainly: "nothing needed, the current ad is still the best thing we have." Do not build a challenger to fill a slot.
+5. **The winner is decaying.** Cost per link click up `decay_cpc_pct` or more over the baseline, or frequency above `max_frequency`, or CTR down `decay_ctr_pct` or more. → **REFINE.** Same angle, same format, new execution. Write a brief.
+6. **The angle is exhausted.** `max_failed_refinements` refinements of the same angle in a row failed to beat the baseline. → **NEW TEST.** Take the next hypothesis from the angle bank. Write a brief.
 7. **Nothing left, or a hard limit is hit.** The angle bank is empty, or the hard-stop counter in the live state has reached `hard_stop_days`. → Escalate to `owner.name` with a recommendation. No brief.
 
 Compare CTR on the same measure in both windows (link CTR with link CTR). Ad platforms report several CTRs.
 
 ### 5. Choose the format
 1. A REFINE keeps the winner's format.
-2. A NEW TEST picks the format that suits the hypothesis. An angle about what the product does usually reads better as a static; an angle about who uses it and why usually needs video.
+2. A NEW TEST picks the format the hypothesis needs. If that is not clear from the hypothesis, ask the owner.
 3. **Never change format and angle in the same move.** You will not know which one moved the number.
-4. **Video has a hard cost.** A round is usually 2 or 3 clips at `ads.video.credits_per_clip` each. Read the credit balance in the live state. Below `ads.video.min_credit_balance`, do not start a video round: report the balance and brief a static instead. State what any video round will cost before briefing it. If either key is missing, ask before briefing video.
+4. **Video has a hard cost.** A round costs the clips it needs times `ads.video.credits_per_clip`. Read the credit balance in the live state. Below `ads.video.min_credit_balance`, do not start a video round: report the balance and brief a static instead. State what any video round will cost before briefing it. If either key is missing, ask before briefing video.
 
 ### 6. Write the brief
-Only for REFINE and NEW TEST. Follow the writing steps of `core/brief-contract` exactly: every field, a unique `utm_content` checked against the whole test history, `Destination` from `ads.destination_url`, budget per cell times cells inside `ads.spend_cap_per_day_eur`, `Decision date` from the gate. Copy in Headline, Subhead and Primary text follows `voice.claim_rules` and uses only `voice.approved_claims` (`core/claims-and-voice-rules`).
+Only for REFINE and NEW TEST. Follow the writing steps of `core/brief-contract` exactly: every field, a unique `utm_content` checked against the whole test history, `Destination` from `ads.destination_url`, budget per cell times cells inside `ads.spend_cap_per_day` (in `ads.currency`), `Decision date` from the gate. Copy in Headline, Subhead and Primary text follows `voice.claim_rules` and uses only `voice.approved_claims` (`core/claims-and-voice-rules`).
 
 ### 7. Hand off and record
 1. Route by the hand-off in `core/brief-contract`: static maker or video maker, then always the campaign operator. CONTINUE or KILL goes to the campaign operator only if something needs pausing.
@@ -117,7 +117,7 @@ Use `core/house-report`. The two or three metrics are the ones behind the decisi
 - **A new creative shipped because a week had passed, while the old one was still winning.** Cause: treating ads like a content calendar. Fix: rung 4; build nothing.
 - **Spend judged from the configured budget.** Cause: budgets lie; one day ran about a quarter over. Fix: actual daily spend (step 2.4).
 - **A week the whole store sold nothing was read as a creative result.** Fix: check the store first, all channels (step 3.1).
-- **A test paused partway was judged on the last 7 days only.** Cause: reading the report window instead of the test's own run. Fix: read the test over its whole run (step 2.2).
+- **A test paused partway was judged on the report window only.** Cause: reading the report window instead of the test's own run. Fix: read the test over its whole run (step 2.2).
 - **Another product's campaigns were counted in this product's numbers.** Cause: one ad account running a second product. Fix: scope to the product (step 1.4) and list what was left out.
 - **A free or test order counted as a sale.** Fix: leave out test orders and zero-value orders (step 2.7).
 - **CTR "dropped" because two different CTRs were compared.** Fix: the same CTR measure in both windows (step 4).

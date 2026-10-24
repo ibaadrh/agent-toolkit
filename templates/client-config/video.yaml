@@ -1,5 +1,5 @@
 video:
-  default_ratio: 9x16
+  default_ratio: ""         # e.g. 9x16; ask when empty
   footage_dir: ""
   footage_map: {}           # clip name → what it shows
   renders: []
@@ -8,12 +8,28 @@ video:
     notes: ""               # e.g. pixel patches applied to the first frame
   tts:
     voice: ""
-    languages: [en-US]
+    languages: []           # language codes, e.g. [en-US]
   end_card:
-    cta: { en: "" }         # one entry per language
+    cta: {}                 # language → call to action
     footer_line: ""
-  captions:
+    duration_s: ""          # how long the end card holds
+    zoom_per_frame: ""      # slow-zoom step per frame; 0 = no zoom
+  captions:                 # the client's caption look; every key empty = ask
     font: ""
+    size: ""
+    colour_ass: ""          # ASS colour, blue-green-red: &H<BB><GG><RR>&
+    outline: ""
+    position: {}            # where captions sit per shot type, e.g. { default: [x, y], product: [x, y] }
     highlight_color_ass: ""
-  loudnorm: "I=-14:TP=-1.5:LRA=9"
-  naming: "<Product>_UGC_<Concept>_<LANG>_9x16_v<N>.mp4"
+  framing:
+    wide_zoom: ""           # how much a wide shot is scaled over its blurred copy; 1 = fit the width
+    background_blur: ""     # ffmpeg boxblur value for the blurred copy
+    background_darken: ""   # ffmpeg eq brightness for the blurred copy; 0 = none
+  audio:
+    voiceover_gap_s: ""     # pause between the presenter's section and the voice-over
+  music:
+    fade_in_s: ""
+    fade_out_s: ""
+    lead_in_s: ""           # how long before its drop a song starts, if music is timed to a drop
+  loudnorm: ""              # ffmpeg loudnorm target, I=<LUFS>:TP=<dBTP>:LRA=<LU>
+  naming: ""                # file naming pattern for finished videos

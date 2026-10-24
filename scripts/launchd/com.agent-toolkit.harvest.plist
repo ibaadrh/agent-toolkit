@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Runs scripts/harvest-claude-app.sh every Sunday at 18:00, only when the volume that holds the repos is mounted.
+  Logs to ~/Library/Logs/agent-harvest.log. Template: the install command in docs/HOW-TO-USE.md fills in
+  __TOOLKIT_DIR__ (this checkout) and __VOLUME__ (its mount point) and copies the result to ~/Library/LaunchAgents/.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.agent-toolkit.harvest</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/sh</string>
+    <string>-c</string>
+    <string>exec >> "$HOME/Library/Logs/agent-harvest.log" 2>&amp;1; echo; if /sbin/mount | grep -q " on __VOLUME__ ("; then "__TOOLKIT_DIR__/scripts/harvest-claude-app.sh"; else echo "$(date '+%F %T') skipped: __VOLUME__ is not mounted"; fi</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>0</integer>
+    <key>Hour</key>
+    <integer>18</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>
